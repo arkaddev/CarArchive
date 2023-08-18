@@ -6,22 +6,20 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "cars")
-public class Car {
+@Table(name = "parts")
+public class Part {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
-    private String brand;
-    private String model;
-    @OneToMany(mappedBy =  "car")
-    private List<Part> parts = new ArrayList<>();
+    private String name;
+    private int mileage;
+    private String date;
+    @ManyToOne
+    @JoinColumn(name = "car_id")
+    private Car car;
 }
