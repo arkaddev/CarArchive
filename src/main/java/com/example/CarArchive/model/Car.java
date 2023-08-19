@@ -12,7 +12,6 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "cars")
 public class Car {
@@ -23,5 +22,5 @@ public class Car {
     private String brand;
     private String model;
     @OneToMany(mappedBy =  "car")
-    private List<Part> parts = new ArrayList<>();
+    private List<Part> parts;
 }
