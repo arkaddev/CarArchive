@@ -2,6 +2,7 @@ package com.example.CarArchive.controller;
 
 import com.example.CarArchive.model.Car;
 import com.example.CarArchive.repository.CarRepository;
+import com.example.CarArchive.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,17 +14,19 @@ import java.util.List;
 @RequestMapping("/cars")
 public class CarController {
 
-    CarRepository carRepository;
-    @Autowired
-    public CarController(CarRepository carRepository) {
-        this.carRepository = carRepository;
+    CarService carService;
+
+    public CarController(CarService carService) {
+        this.carService = carService;
     }
+
+    @Autowired
 
 
 
     @GetMapping("/all")
     public List<Car> getAllCars() {
-        return carRepository.findAll();
+        return carService.getAllCars();
     }
 
 

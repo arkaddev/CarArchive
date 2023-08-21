@@ -18,9 +18,9 @@ public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
     private String brand;
     private String model;
-    @OneToMany(mappedBy =  "car")
+    private String owner;
+    @OneToMany(mappedBy = "car")
     private List<Part> parts;
 }

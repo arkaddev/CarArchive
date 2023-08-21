@@ -19,6 +19,8 @@ public class Part {
     private String name;
     private int mileage;
     private String date;
+    private String partPrice;
+    private String repairPrice;
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "car_id")
