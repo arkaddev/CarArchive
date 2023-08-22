@@ -4,9 +4,7 @@ import com.example.CarArchive.model.Car;
 import com.example.CarArchive.model.Part;
 import com.example.CarArchive.repository.PartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,4 +22,10 @@ public class PartController {
     public List<Part> getAllParts() {
         return partRepository.findAll();
     }
+
+    @PostMapping("/info")
+    public List<Part> getPartsToExchangeByMileage(@RequestBody Car car) {
+        return null;
+    }
+
 }

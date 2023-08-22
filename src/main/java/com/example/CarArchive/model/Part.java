@@ -21,6 +21,7 @@ public class Part {
     private String date;
     private String partPrice;
     private String repairPrice;
+    private int nextExchange;
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "car_id")
