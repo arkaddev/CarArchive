@@ -30,6 +30,10 @@ public class PartController {
     public Part getPartById(@PathVariable int id){
         return partService.getPartById(id);
     }
+    @PostMapping("/parts")
+    public Part addNewPart(@RequestBody Part part){
+        return partService.addNewPart(part);
+    }
 
     @PostMapping("/info")
     public List<Part> getPartsToExchangeByMileage(@RequestBody Car car) {

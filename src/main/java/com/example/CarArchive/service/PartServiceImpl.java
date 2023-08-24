@@ -30,4 +30,9 @@ public class PartServiceImpl implements PartService {
         Part part = optionalPart.orElseThrow();
         return part;
     }
+
+    @Override
+    public Part addNewPart(Part part) {
+        return partRepository.save(part);
+    }
 }
