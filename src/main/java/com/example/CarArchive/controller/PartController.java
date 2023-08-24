@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/parts")
+//@RequestMapping("/parts")
 public class PartController {
     PartService partService;
 
@@ -21,9 +21,14 @@ public class PartController {
     @Autowired
 
 
-    @GetMapping("/all")
+    @GetMapping("/parts")
     public List<Part> getAllParts() {
         return partService.getAllParts();
+    }
+
+    @GetMapping("/parts/{id}")
+    public Part getPartById(@PathVariable int id){
+        return partService.getPartById(id);
     }
 
     @PostMapping("/info")

@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class PartServiceImpl implements PartService {
 
@@ -20,5 +22,12 @@ public class PartServiceImpl implements PartService {
     @Override
     public List<Part> getAllParts() {
         return partRepository.findAll();
+    }
+
+    @Override
+    public Part getPartById(int id) {
+        Optional<Part> optionalPart = partRepository.findById(id);
+        Part part = optionalPart.orElseThrow();
+        return part;
     }
 }
