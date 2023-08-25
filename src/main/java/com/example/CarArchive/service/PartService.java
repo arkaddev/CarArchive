@@ -10,4 +10,7 @@ public interface PartService {
     Part addNewPart(Part part);
 
 
+    List<Object[]> getPartsToExchangeByMileage(int km, int carId);
+
+
 }

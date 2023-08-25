@@ -35,9 +35,9 @@ public class PartController {
         return partService.addNewPart(part);
     }
 
-    @PostMapping("/info")
-    public List<Part> getPartsToExchangeByMileage(@RequestBody Car car) {
-        return null;
+    @PostMapping("/partsToExchange")
+    public List<Object[]> getPartsToExchangeByMileage(@RequestParam int km, @RequestParam int carId ) {
+        return partService.getPartsToExchangeByMileage(km, carId);
     }
 
 }

@@ -35,4 +35,9 @@ public class PartServiceImpl implements PartService {
     public Part addNewPart(Part part) {
         return partRepository.save(part);
     }
+
+    @Override
+    public List<Object[]> getPartsToExchangeByMileage(int km, int carId) {
+        return partRepository.findPartsByMileage(km, carId);
+    }
 }
