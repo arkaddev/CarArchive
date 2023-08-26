@@ -4,15 +4,12 @@ import com.example.CarArchive.model.Car;
 import com.example.CarArchive.repository.CarRepository;
 import com.example.CarArchive.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/cars")
+//@RequestMapping("/cars")
 public class CarController {
 
     CarService carService;
@@ -23,9 +20,14 @@ public class CarController {
     }
 
 
-    @GetMapping("/all")
+    @GetMapping("/cars")
     public List<Car> getAllCars() {
         return carService.getAllCars();
+    }
+
+    @GetMapping("/car/{id}")
+    public Car getCarById(@PathVariable int id) {
+        return carService.getCarById(id);
     }
 }
 
