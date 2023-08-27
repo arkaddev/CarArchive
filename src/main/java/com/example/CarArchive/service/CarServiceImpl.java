@@ -29,4 +29,9 @@ public class CarServiceImpl implements CarService {
         Car car = optionalCar.orElseThrow();
         return car;
     }
+
+    @Override
+    public Car addNewCar(Car car) {
+        return carRepository.save(car);
+    }
 }
