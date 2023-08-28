@@ -35,6 +35,11 @@ public class CarController {
     public Car addNewCar(@RequestBody Car car) {
         return carService.addNewCar(car);
     }
+
+    @DeleteMapping("/car/{id}")
+    public void deleteCar(@PathVariable int id){
+        carService.deleteCar(id);
+    }
 }
 
 
