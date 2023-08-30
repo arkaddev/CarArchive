@@ -37,6 +37,11 @@ public class PartServiceImpl implements PartService {
     }
 
     @Override
+    public void deletePart(int id) {
+        partRepository.deleteById(id);
+    }
+
+    @Override
     public List<Object[]> getPartsToExchangeByMileage(int km, int carId) {
         return partRepository.findPartsByMileage(km, carId);
     }

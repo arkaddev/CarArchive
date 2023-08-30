@@ -8,6 +8,7 @@ public interface PartService {
     List<Part> getAllParts();
     Part getPartById(int id);
     Part addNewPart(Part part);
+    void deletePart(int id);
 
 
     List<Object[]> getPartsToExchangeByMileage(int km, int carId);
