@@ -37,6 +37,20 @@ public class PartServiceImpl implements PartService {
     }
 
     @Override
+    public Part updatePart(int id, Part part) {
+        Part partToUpdate = getPartById(id);
+
+        partToUpdate.setName(part.getName());
+        partToUpdate.setMileage(part.getMileage());
+        partToUpdate.setDate(part.getDate());
+        partToUpdate.setPartPrice(part.getPartPrice());
+        partToUpdate.setRepairPrice(part.getRepairPrice());
+        partToUpdate.setNextExchange(part.getNextExchange());
+
+        return partRepository.save(partToUpdate);
+    }
+
+    @Override
     public void deletePart(int id) {
         partRepository.deleteById(id);
     }

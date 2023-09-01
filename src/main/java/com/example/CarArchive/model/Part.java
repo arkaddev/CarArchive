@@ -2,10 +2,7 @@ package com.example.CarArchive.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
@@ -27,4 +24,68 @@ public class Part {
     @ManyToOne
     @JoinColumn(name = "car_id")
     private Car car;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getMileage() {
+        return mileage;
+    }
+
+    public void setMileage(int mileage) {
+        this.mileage = mileage;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getPartPrice() {
+        return partPrice;
+    }
+
+    public void setPartPrice(String partPrice) {
+        this.partPrice = partPrice;
+    }
+
+    public String getRepairPrice() {
+        return repairPrice;
+    }
+
+    public void setRepairPrice(String repairPrice) {
+        this.repairPrice = repairPrice;
+    }
+
+    public int getNextExchange() {
+        return nextExchange;
+    }
+
+    public void setNextExchange(int nextExchange) {
+        this.nextExchange = nextExchange;
+    }
+
+    public Car getCar() {
+        return car;
+    }
+
+    public void setCar(Car car) {
+        this.car = car;
+    }
 }

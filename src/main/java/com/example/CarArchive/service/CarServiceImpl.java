@@ -38,8 +38,9 @@ public class CarServiceImpl implements CarService {
     @Override
     public Car updateCar(int id, Car car) {
         Car carToUpdate = getCarById(id);
-       // carToUpdate.
-
+        carToUpdate.setBrand(car.getBrand());
+        carToUpdate.setModel(car.getModel());
+        carToUpdate.setOwner(car.getOwner());
 
         return carRepository.save(carToUpdate);
     }

@@ -39,9 +39,15 @@ public class CarController {
         return carService.addNewCar(car);
     }
 
+    @Operation(summary = "update car", description = "")
+    @PutMapping("/cars/{id}")
+    public Car updateCar(@PathVariable int id, @RequestBody Car car) {
+        return carService.updateCar(id, car);
+    }
+
     @Operation(summary = "delete car by id", description = "")
     @DeleteMapping("/car/{id}")
-    public void deleteCar(@PathVariable int id){
+    public void deleteCar(@PathVariable int id) {
         carService.deleteCar(id);
     }
 }

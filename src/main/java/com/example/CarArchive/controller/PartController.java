@@ -45,6 +45,12 @@ public class PartController {
         partService.deletePart(id);
     }
 
+    @Operation(summary = "update part", description = "")
+    @PutMapping("/parts/{id}")
+    public Part updateCar(@PathVariable int id, @RequestBody Part part) {
+        return partService.updatePart(id, part);
+    }
+
     @Operation(summary = "get parts to exchange by mileage", description = "")
     @PostMapping("/partsToExchange")
     public List<Object[]> getPartsToExchangeByMileage(@RequestParam int km, @RequestParam int carId) {
