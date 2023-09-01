@@ -8,5 +8,7 @@ public interface CarService {
     List<Car> getAllCars();
     Car getCarById(int id);
     Car addNewCar(Car car);
+    Car updateCar(int id, Car car);
     void deleteCar(int id);
+
 }
