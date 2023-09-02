@@ -6,7 +6,10 @@ import com.example.CarArchive.model.Car;
 import com.example.CarArchive.service.CarService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.function.EntityResponse;
 
 import java.util.List;
 
@@ -35,8 +38,9 @@ public class CarController {
 
     @Operation(summary = "add new car", description = "")
     @PostMapping("/cars")
-    public CarResponse addNewCar(@RequestBody CarRequest carRequest) {
-        return carService.addNewCar(carRequest);
+    public ResponseEntity<CarResponse> addNewCar(@RequestBody CarRequest carRequest) {
+        //return ResponseEntity.ok(carService.addNewCar(carRequest));
+        return ResponseEntity.status(HttpStatus.CREATED).body(carService.addNewCar(carRequest));
     }
 
     @Operation(summary = "update car", description = "")
