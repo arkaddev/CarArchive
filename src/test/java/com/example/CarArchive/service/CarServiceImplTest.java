@@ -1,5 +1,7 @@
 package com.example.CarArchive.service;
 
+import com.example.CarArchive.dto.CarRequest;
+import com.example.CarArchive.dto.CarResponse;
 import com.example.CarArchive.model.Car;
 import com.example.CarArchive.repository.CarRepository;
 import org.junit.jupiter.api.Assertions;
@@ -18,8 +20,8 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 class CarServiceImplTest {
@@ -32,6 +34,7 @@ class CarServiceImplTest {
 
     private Car car;
     private Car car2;
+    private CarRequest carRequest;
 
     @BeforeEach
     void setup() {
@@ -48,6 +51,11 @@ class CarServiceImplTest {
         car2.setBrand("testBrand2");
         car2.setModel("testModel2");
         car2.setOwner("testOwner2");
+
+        carRequest = new CarRequest();
+        carRequest.setBrand("testBrand3");
+        carRequest.setModel("testModel3");
+        carRequest.setOwner("testOwner3");
     }
 
     @Test
@@ -76,6 +84,11 @@ class CarServiceImplTest {
 
     @Test
     void addNewCar() {
+        when(carRepository.save(any(Car.class))).thenReturn(car);
+        CarResponse serviceResponse = carService.addNewCar(carRequest);
+
+        verify(carRepository, times(1)).save(any(Car.class));
+        assertEquals(serviceResponse.getBrand(),"testBrand3");
     }
 
     @Test
