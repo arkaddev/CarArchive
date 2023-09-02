@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CarDTO {
+public class CarRequest {
     private String brand;
     private String model;
     private String owner;

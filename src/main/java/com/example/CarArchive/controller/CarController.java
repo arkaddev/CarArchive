@@ -1,9 +1,7 @@
 package com.example.CarArchive.controller;
 
-import com.example.CarArchive.dto.CarDTO;
+import com.example.CarArchive.dto.CarRequest;
 import com.example.CarArchive.model.Car;
-import com.example.CarArchive.model.Part;
-import com.example.CarArchive.repository.CarRepository;
 import com.example.CarArchive.service.CarService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +34,7 @@ public class CarController {
 
     @Operation(summary = "add new car", description = "")
     @PostMapping("/cars")
-    public Car addNewCar(@RequestBody CarDTO carDTO) {
+    public Car addNewCar(@RequestBody CarRequest carDTO) {
         return carService.addNewCar(carDTO);
     }
 
