@@ -1,5 +1,7 @@
 package com.example.CarArchive.service;
 
+import com.example.CarArchive.dto.CarDTO;
+import com.example.CarArchive.mapper.CarMapper;
 import com.example.CarArchive.model.Car;
 import com.example.CarArchive.repository.CarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +13,14 @@ import java.util.Optional;
 @Service
 public class CarServiceImpl implements CarService {
 
-    CarRepository carRepository;
-
+    private final CarRepository carRepository;
+    private final CarMapper carMapper;
     @Autowired
-    public CarServiceImpl(CarRepository carRepository) {
+    public CarServiceImpl(CarRepository carRepository, CarMapper carMapper) {
         this.carRepository = carRepository;
+        this.carMapper = carMapper;
     }
+
 
     @Override
     public List<Car> getAllCars() {
@@ -24,19 +28,20 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public Car getCarById(int id) {
+    public Car getCarById(Long id) {
         Optional<Car> optionalCar = carRepository.findById(id);
         Car car = optionalCar.orElseThrow();
         return car;
     }
 
     @Override
-    public Car addNewCar(Car car) {
+    public Car addNewCar(CarDTO carDTO) {
+        Car car = carMapper.carDTOtoCar(carDTO);
         return carRepository.save(car);
     }
 
     @Override
-    public Car updateCar(int id, Car car) {
+    public Car updateCar(Long id, Car car) {
         Car carToUpdate = getCarById(id);
         carToUpdate.setBrand(car.getBrand());
         carToUpdate.setModel(car.getModel());
@@ -46,7 +51,7 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public void deleteCar(int id) {
+    public void deleteCar(Long id) {
         carRepository.deleteById(id);
     }
 }

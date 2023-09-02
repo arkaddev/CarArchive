@@ -1,5 +1,6 @@
 package com.example.CarArchive.controller;
 
+import com.example.CarArchive.dto.CarDTO;
 import com.example.CarArchive.model.Car;
 import com.example.CarArchive.model.Part;
 import com.example.CarArchive.repository.CarRepository;
@@ -29,25 +30,25 @@ public class CarController {
 
     @Operation(summary = "get car by id", description = "")
     @GetMapping("/car/{id}")
-    public Car getCarById(@PathVariable int id) {
+    public Car getCarById(@PathVariable Long id) {
         return carService.getCarById(id);
     }
 
     @Operation(summary = "add new car", description = "")
     @PostMapping("/cars")
-    public Car addNewCar(@RequestBody Car car) {
-        return carService.addNewCar(car);
+    public Car addNewCar(@RequestBody CarDTO carDTO) {
+        return carService.addNewCar(carDTO);
     }
 
     @Operation(summary = "update car", description = "")
     @PutMapping("/cars/{id}")
-    public Car updateCar(@PathVariable int id, @RequestBody Car car) {
+    public Car updateCar(@PathVariable Long id, @RequestBody Car car) {
         return carService.updateCar(id, car);
     }
 
     @Operation(summary = "delete car by id", description = "")
     @DeleteMapping("/car/{id}")
-    public void deleteCar(@PathVariable int id) {
+    public void deleteCar(@PathVariable Long id) {
         carService.deleteCar(id);
     }
 }

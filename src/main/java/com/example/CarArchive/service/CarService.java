@@ -1,14 +1,15 @@
 package com.example.CarArchive.service;
 
+import com.example.CarArchive.dto.CarDTO;
 import com.example.CarArchive.model.Car;
 
 import java.util.List;
 
 public interface CarService {
     List<Car> getAllCars();
-    Car getCarById(int id);
-    Car addNewCar(Car car);
-    Car updateCar(int id, Car car);
-    void deleteCar(int id);
+    Car getCarById(Long id);
+    Car addNewCar(CarDTO carDTO);
+    Car updateCar(Long id, Car car);
+    void deleteCar(Long id);
 
 }
