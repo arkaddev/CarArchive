@@ -13,7 +13,7 @@ import lombok.*;
 public class Part {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     private String name;
     private int mileage;
     private String date;
@@ -25,11 +25,11 @@ public class Part {
     @JoinColumn(name = "car_id")
     private Car car;
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

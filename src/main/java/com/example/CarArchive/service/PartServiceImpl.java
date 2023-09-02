@@ -25,7 +25,7 @@ public class PartServiceImpl implements PartService {
     }
 
     @Override
-    public Part getPartById(int id) {
+    public Part getPartById(Long id) {
         Optional<Part> optionalPart = partRepository.findById(id);
         Part part = optionalPart.orElseThrow();
         return part;
@@ -37,7 +37,7 @@ public class PartServiceImpl implements PartService {
     }
 
     @Override
-    public Part updatePart(int id, Part part) {
+    public Part updatePart(Long id, Part part) {
         Part partToUpdate = getPartById(id);
 
         partToUpdate.setName(part.getName());
@@ -51,12 +51,12 @@ public class PartServiceImpl implements PartService {
     }
 
     @Override
-    public void deletePart(int id) {
+    public void deletePart(Long id) {
         partRepository.deleteById(id);
     }
 
     @Override
-    public List<Object[]> getPartsToExchangeByMileage(int km, int carId) {
+    public List<Object[]> getPartsToExchangeByMileage(int km, Long carId) {
         return partRepository.findPartsByMileage(km, carId);
     }
 }

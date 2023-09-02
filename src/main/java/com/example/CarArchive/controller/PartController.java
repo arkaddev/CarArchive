@@ -29,7 +29,7 @@ public class PartController {
 
     @Operation(summary = "get part by id", description = "")
     @GetMapping("/parts/{id}")
-    public Part getPartById(@PathVariable int id) {
+    public Part getPartById(@PathVariable Long id) {
         return partService.getPartById(id);
     }
 
@@ -41,19 +41,19 @@ public class PartController {
 
     @Operation(summary = "delete part by id", description = "")
     @DeleteMapping("/part/{id}")
-    public void deleteCar(@PathVariable int id){
+    public void deleteCar(@PathVariable Long id){
         partService.deletePart(id);
     }
 
     @Operation(summary = "update part", description = "")
     @PutMapping("/parts/{id}")
-    public Part updateCar(@PathVariable int id, @RequestBody Part part) {
+    public Part updateCar(@PathVariable Long id, @RequestBody Part part) {
         return partService.updatePart(id, part);
     }
 
     @Operation(summary = "get parts to exchange by mileage", description = "")
     @PostMapping("/partsToExchange")
-    public List<Object[]> getPartsToExchangeByMileage(@RequestParam int km, @RequestParam int carId) {
+    public List<Object[]> getPartsToExchangeByMileage(@RequestParam int km, @RequestParam Long carId) {
         return partService.getPartsToExchangeByMileage(km, carId);
     }
 
