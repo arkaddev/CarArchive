@@ -1,6 +1,7 @@
 package com.example.CarArchive.controller;
 
 import com.example.CarArchive.dto.CarRequest;
+import com.example.CarArchive.dto.CarResponse;
 import com.example.CarArchive.model.Car;
 import com.example.CarArchive.service.CarService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -34,8 +35,8 @@ public class CarController {
 
     @Operation(summary = "add new car", description = "")
     @PostMapping("/cars")
-    public Car addNewCar(@RequestBody CarRequest carDTO) {
-        return carService.addNewCar(carDTO);
+    public CarResponse addNewCar(@RequestBody CarRequest carRequest) {
+        return carService.addNewCar(carRequest);
     }
 
     @Operation(summary = "update car", description = "")

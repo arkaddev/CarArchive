@@ -1,6 +1,7 @@
 package com.example.CarArchive.service;
 
 import com.example.CarArchive.dto.CarRequest;
+import com.example.CarArchive.dto.CarResponse;
 import com.example.CarArchive.mapper.CarMapper;
 import com.example.CarArchive.model.Car;
 import com.example.CarArchive.repository.CarRepository;
@@ -35,9 +36,11 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public Car addNewCar(CarRequest carRequest) {
+    public CarResponse addNewCar(CarRequest carRequest) {
         Car car = carMapper.carRequestToCar(carRequest);
-        return carRepository.save(car);
+        CarResponse carResponse = carMapper.carToCarResponse(car);
+        carRepository.save(car);
+        return new CarResponse(car.getId(), car.getBrand(), car.getModel(), car.getOwner(), car.getParts());
     }
 
     @Override
