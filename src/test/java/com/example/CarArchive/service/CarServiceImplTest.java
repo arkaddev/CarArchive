@@ -88,11 +88,23 @@ class CarServiceImplTest {
         CarResponse serviceResponse = carService.addNewCar(carRequest);
 
         verify(carRepository, times(1)).save(any(Car.class));
-        assertEquals(serviceResponse.getBrand(),"testBrand3");
+        assertEquals(serviceResponse.getBrand(), "testBrand3");
     }
 
     @Test
     void updateCar() {
+        when(carRepository.findById(2L)).thenReturn(Optional.of(car));
+        when(carRepository.save(any(Car.class))).thenReturn(car);
+
+        Car serviceCar = carService.updateCar(1L, car);
+
+        verify(carRepository, times(1)).findById(1L);
+        verify(carRepository, times(1)).save(any(Car.class));
+
+        assertEquals(1L, car.getId());
+        assertEquals("testBrand", car.getBrand());
+        assertEquals("testModel", car.getModel());
+        assertEquals("testOwner", car.getOwner());
     }
 
     @Test
