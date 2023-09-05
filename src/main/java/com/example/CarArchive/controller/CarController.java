@@ -32,8 +32,8 @@ public class CarController {
 
     @Operation(summary = "get car by id", description = "")
     @GetMapping("/car/{id}")
-    public CarResponse getCarById(@PathVariable Long id) {
-        return carService.getCarById(id);
+    public ResponseEntity<CarResponse> getCarById(@PathVariable Long id) {
+        return ResponseEntity.ok(carService.getCarById(id));
     }
 
     @Operation(summary = "add new car", description = "")
@@ -45,14 +45,14 @@ public class CarController {
 
     @Operation(summary = "update car", description = "")
     @PutMapping("/cars/{id}")
-    public CarResponse updateCar(@PathVariable Long id, @RequestBody CarRequest carRequest) {
-        return carService.updateCar(id, carRequest);
+    public ResponseEntity<CarResponse> updateCar(@PathVariable Long id, @RequestBody CarRequest carRequest) {
+        return ResponseEntity.ok(carService.updateCar(id, carRequest));
     }
 
     @Operation(summary = "delete car by id", description = "")
     @DeleteMapping("/car/{id}")
-    public String deleteCar(@PathVariable Long id) {
-        return carService.deleteCar(id);
+    public ResponseEntity<String> deleteCar(@PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(carService.deleteCar(id));
     }
 }
 

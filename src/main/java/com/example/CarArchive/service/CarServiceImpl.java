@@ -52,6 +52,7 @@ public class CarServiceImpl implements CarService {
     @Override
     public CarResponse updateCar(Long id, CarRequest carRequest) {
         Optional<Car> optionalCar = carRepository.findById(id);
+        //if(optionalCar.isPresent()){
         Car carToUpdate = optionalCar.get();
         carToUpdate.setBrand(carRequest.getBrand());
         carToUpdate.setModel(carRequest.getModel());
@@ -59,6 +60,10 @@ public class CarServiceImpl implements CarService {
 
         carRepository.save(carToUpdate);
         return new CarResponse(carToUpdate.getId(), carToUpdate.getBrand(), carToUpdate.getModel(), carToUpdate.getOwner(), carToUpdate.getParts());
+        // }
+//        else{
+//          throw new CarNotFoundException("Car not exist");
+//        }
     }
 
 
