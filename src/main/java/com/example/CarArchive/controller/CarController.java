@@ -26,13 +26,13 @@ public class CarController {
 
     @Operation(summary = "get all cars", description = "")
     @GetMapping("/cars")
-    public List<Car> getAllCars() {
+    public List<CarResponse> getAllCars() {
         return carService.getAllCars();
     }
 
     @Operation(summary = "get car by id", description = "")
     @GetMapping("/car/{id}")
-    public Car getCarById(@PathVariable Long id) {
+    public CarResponse getCarById(@PathVariable Long id) {
         return carService.getCarById(id);
     }
 
@@ -45,14 +45,14 @@ public class CarController {
 
     @Operation(summary = "update car", description = "")
     @PutMapping("/cars/{id}")
-    public Car updateCar(@PathVariable Long id, @RequestBody Car car) {
-        return carService.updateCar(id, car);
+    public CarResponse updateCar(@PathVariable Long id, @RequestBody CarRequest carRequest) {
+        return carService.updateCar(id, carRequest);
     }
 
     @Operation(summary = "delete car by id", description = "")
     @DeleteMapping("/car/{id}")
-    public void deleteCar(@PathVariable Long id) {
-        carService.deleteCar(id);
+    public String deleteCar(@PathVariable Long id) {
+        return carService.deleteCar(id);
     }
 }
 

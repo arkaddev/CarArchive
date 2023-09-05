@@ -16,6 +16,7 @@ public class CarServiceImpl implements CarService {
 
     private final CarRepository carRepository;
     private final CarMapper carMapper;
+
     @Autowired
     public CarServiceImpl(CarRepository carRepository, CarMapper carMapper) {
         this.carRepository = carRepository;
@@ -24,15 +25,20 @@ public class CarServiceImpl implements CarService {
 
 
     @Override
-    public List<Car> getAllCars() {
-        return carRepository.findAll();
+    public List<CarResponse> getAllCars() {
+        return carRepository.findAll().stream()
+                .map(carMapper::carToCarResponse)
+                .toList();
     }
 
     @Override
-    public Car getCarById(Long id) {
-        Optional<Car> optionalCar = carRepository.findById(id);
-        Car car = optionalCar.orElseThrow();
-        return car;
+    public CarResponse getCarById(Long id) {
+//        Optional<Car> optionalCar = carRepository.findById(id);
+//        Car car = optionalCar.orElseThrow();
+//        CarResponse carResponse = carMapper.carToCarResponse(car);
+//        return carResponse;
+        Optional<CarResponse> optionalCar = carRepository.findById(id).map(carMapper::carToCarResponse);
+        return optionalCar.orElseThrow();
     }
 
     @Override
@@ -44,17 +50,21 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public Car updateCar(Long id, Car car) {
-        Car carToUpdate = getCarById(id);
-        carToUpdate.setBrand(car.getBrand());
-        carToUpdate.setModel(car.getModel());
-        carToUpdate.setOwner(car.getOwner());
+    public CarResponse updateCar(Long id, CarRequest carRequest) {
+        Optional<Car> optionalCar = carRepository.findById(id);
+        Car carToUpdate = optionalCar.get();
+        carToUpdate.setBrand(carRequest.getBrand());
+        carToUpdate.setModel(carRequest.getModel());
+        carToUpdate.setOwner(carRequest.getOwner());
 
-        return carRepository.save(carToUpdate);
+        carRepository.save(carToUpdate);
+        return new CarResponse(carToUpdate.getId(), carToUpdate.getBrand(), carToUpdate.getModel(), carToUpdate.getOwner(), carToUpdate.getParts());
     }
 
+
     @Override
-    public void deleteCar(Long id) {
+    public String deleteCar(Long id) {
         carRepository.deleteById(id);
+        return "Car " + id + " was deleted";
     }
 }

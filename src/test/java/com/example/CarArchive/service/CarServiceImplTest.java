@@ -38,13 +38,11 @@ class CarServiceImplTest {
 
     @BeforeEach
     void setup() {
-        // przygotowanie mocka, repozytorium
         car = new Car();
         car.setId(1L);
         car.setBrand("testBrand");
         car.setModel("testModel");
         car.setOwner("testOwner");
-
 
         car2 = new Car();
         car2.setId(2L);
@@ -57,29 +55,36 @@ class CarServiceImplTest {
         carRequest.setModel("testModel3");
         carRequest.setOwner("testOwner3");
     }
-
     @Test
     void getAllCars() {
         List<Car> cars = Arrays.asList(car, car2);
-
         when(carRepository.findAll()).thenReturn(cars);
-        // pobranie samochodow za pomoca serwisu
-        List<Car> serviceCars = carService.getAllCars();
 
-        assertThat(serviceCars).isNotEmpty();
-        assertThat(serviceCars).hasSize(2);
+        List<CarResponse> serviceCars = carService.getAllCars();
+
+        verify(carRepository, times(1)).findAll();
+        assertEquals(2, serviceCars.size());
+
+        assertEquals("testBrand", serviceCars.get(0).getBrand());
+        assertEquals("testModel", serviceCars.get(0).getModel());
+        assertEquals("testOwner", serviceCars.get(0).getOwner());
+
+        assertEquals("testBrand2", serviceCars.get(1).getBrand());
+        assertEquals("testModel2", serviceCars.get(1).getModel());
+        assertEquals("testOwner2", serviceCars.get(1).getOwner());
     }
 
     @Test
     void getCarById() {
         when(carRepository.findById(1L)).thenReturn(Optional.of(car));
-        Car serviceCar = carService.getCarById(1L);
+        CarResponse serviceCar = carService.getCarById(1L);
 
-        assertEquals(serviceCar.getBrand(), "testBrand");
-        assertEquals(serviceCar.getId(), 1);
+        verify(carRepository, times(1)).findById(1L);
 
-        assertThat(serviceCar).isNotNull();
-        assertThat(serviceCar.getId()).isEqualTo(1L);
+        assertEquals(1, serviceCar.getId());
+        assertEquals("testBrand", serviceCar.getBrand());
+        assertEquals("testModel", serviceCar.getModel());
+        assertEquals("testOwner", serviceCar.getOwner());
     }
 
     @Test
@@ -93,21 +98,23 @@ class CarServiceImplTest {
 
     @Test
     void updateCar() {
-        when(carRepository.findById(2L)).thenReturn(Optional.of(car));
+        when(carRepository.findById(1L)).thenReturn(Optional.of(car));
         when(carRepository.save(any(Car.class))).thenReturn(car);
 
-        Car serviceCar = carService.updateCar(1L, car);
+        CarResponse serviceCar = carService.updateCar(1L, carRequest);
 
         verify(carRepository, times(1)).findById(1L);
         verify(carRepository, times(1)).save(any(Car.class));
 
         assertEquals(1L, car.getId());
-        assertEquals("testBrand", car.getBrand());
-        assertEquals("testModel", car.getModel());
-        assertEquals("testOwner", car.getOwner());
+        assertEquals("testBrand3", car.getBrand());
+        assertEquals("testModel3", car.getModel());
+        assertEquals("testOwner3", car.getOwner());
     }
 
     @Test
     void deleteCar() {
+//        when(carRepository.findById(1L)).thenReturn(Optional.of(car));
+//        verify(carRepository, times(1)).deleteById(1L);
     }
 }

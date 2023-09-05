@@ -7,10 +7,10 @@ import com.example.CarArchive.model.Car;
 import java.util.List;
 
 public interface CarService {
-    List<Car> getAllCars();
-    Car getCarById(Long id);
+    List<CarResponse> getAllCars();
+    CarResponse getCarById(Long id);
     CarResponse addNewCar(CarRequest carRequest);
-    Car updateCar(Long id, Car car);
-    void deleteCar(Long id);
+    CarResponse updateCar(Long id, CarRequest carRequest);
+    String deleteCar(Long id);
 
 }
