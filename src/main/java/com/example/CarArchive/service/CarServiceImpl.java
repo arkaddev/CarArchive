@@ -2,6 +2,7 @@ package com.example.CarArchive.service;
 
 import com.example.CarArchive.dto.CarRequest;
 import com.example.CarArchive.dto.CarResponse;
+import com.example.CarArchive.exception.CarNotFoundException;
 import com.example.CarArchive.mapper.CarMapper;
 import com.example.CarArchive.model.Car;
 import com.example.CarArchive.repository.CarRepository;
@@ -38,7 +39,7 @@ public class CarServiceImpl implements CarService {
 //        CarResponse carResponse = carMapper.carToCarResponse(car);
 //        return carResponse;
         Optional<CarResponse> optionalCar = carRepository.findById(id).map(carMapper::carToCarResponse);
-        return optionalCar.orElseThrow();
+        return optionalCar.orElseThrow(()-> new CarNotFoundException("Car does not exist"));
     }
 
     @Override
