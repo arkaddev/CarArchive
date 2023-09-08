@@ -6,6 +6,7 @@ import com.example.CarArchive.exception.CarNotFoundException;
 import com.example.CarArchive.exception.CarSaveException;
 import com.example.CarArchive.mapper.CarMapper;
 import com.example.CarArchive.model.Car;
+import com.example.CarArchive.model.User;
 import com.example.CarArchive.repository.CarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,12 +20,15 @@ public class CarServiceImpl implements CarService {
     private final CarRepository carRepository;
     private final CarMapper carMapper;
 
+    private final UserService userService;
+
+
     @Autowired
-    public CarServiceImpl(CarRepository carRepository, CarMapper carMapper) {
+    public CarServiceImpl(CarRepository carRepository, CarMapper carMapper, UserService userService) {
         this.carRepository = carRepository;
         this.carMapper = carMapper;
+        this.userService = userService;
     }
-
 
     @Override
     public List<CarResponse> getAllCars() {
@@ -87,4 +91,14 @@ public class CarServiceImpl implements CarService {
 
         return "Car " + id + " was deleted";
     }
-}
+
+    @Override
+    public List<Car> getAllCarbByLoggedUsername(String loggedUsername) {
+            User user = userService.getUserByUsername(loggedUsername);
+            Long userId = user.getId();
+
+            return carRepository.findCarsByUserId(userId);
+        }
+    }
+
+

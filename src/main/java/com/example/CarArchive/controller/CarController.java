@@ -1,7 +1,10 @@
 package com.example.CarArchive.controller;
 
+import com.example.CarArchive.config.AuthenticationService;
+import com.example.CarArchive.config.CustomUserDetailsService;
 import com.example.CarArchive.dto.CarRequest;
 import com.example.CarArchive.dto.CarResponse;
+import com.example.CarArchive.model.Car;
 import com.example.CarArchive.service.CarService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +18,13 @@ import java.util.List;
 //@RequestMapping("/cars")
 public class CarController {
 
-    CarService carService;
+   private final CarService carService;
+   private final AuthenticationService authenticationService;
 
     @Autowired
-    public CarController(CarService carService) {
+    public CarController(CarService carService, AuthenticationService authenticationService) {
         this.carService = carService;
+        this.authenticationService = authenticationService;
     }
 
     @Operation(summary = "get all cars", description = "")
@@ -51,6 +56,21 @@ public class CarController {
     @DeleteMapping("/car/{id}")
     public ResponseEntity<String> deleteCar(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(carService.deleteCar(id));
+    }
+
+    @Operation(summary = "get car by logged user", description = "")
+    @GetMapping("/cars/user/")
+    public ResponseEntity<List<Car>> getCarByLoggedUser() {
+        return ResponseEntity.ok(carService.getAllCarbByLoggedUsername(getLoggedUser()));
+    }
+
+    public String getLoggedUser(){
+        return authenticationService.getInfoAboutUser();
+    }
+    @Operation(summary = "get info about user", description = "")
+    @GetMapping("/info")
+    public String getAllCdars() {
+       return authenticationService.getInfoAboutUser();
     }
 }
 
