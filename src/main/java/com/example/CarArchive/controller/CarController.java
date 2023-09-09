@@ -18,8 +18,8 @@ import java.util.List;
 //@RequestMapping("/cars")
 public class CarController {
 
-   private final CarService carService;
-   private final AuthenticationService authenticationService;
+    private final CarService carService;
+    private final AuthenticationService authenticationService;
 
     @Autowired
     public CarController(CarService carService, AuthenticationService authenticationService) {
@@ -60,17 +60,18 @@ public class CarController {
 
     @Operation(summary = "get car by logged user", description = "")
     @GetMapping("/cars/user/")
-    public ResponseEntity<List<Car>> getCarByLoggedUser() {
-        return ResponseEntity.ok(carService.getAllCarbByLoggedUsername(getLoggedUser()));
+    public ResponseEntity<List<CarResponse>> getCarByLoggedUser() {
+        return ResponseEntity.ok(carService.getCarsByLoggedUsername(getLoggedUser()));
     }
 
-    public String getLoggedUser(){
-        return authenticationService.getInfoAboutUser();
-    }
     @Operation(summary = "get info about user", description = "")
     @GetMapping("/info")
-    public String getAllCdars() {
-       return authenticationService.getInfoAboutUser();
+    public String getInfo() {
+        return authenticationService.getInfoAboutUser();
+    }
+
+    public String getLoggedUser() {
+        return authenticationService.getInfoAboutUser();
     }
 }
 

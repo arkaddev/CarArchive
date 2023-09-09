@@ -93,12 +93,14 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public List<Car> getAllCarbByLoggedUsername(String loggedUsername) {
-            User user = userService.getUserByUsername(loggedUsername);
-            Long userId = user.getId();
+    public List<CarResponse> getCarsByLoggedUsername(String loggedUsername) {
+        User user = userService.getUserByUsername(loggedUsername);
+        Long userId = user.getId();
 
-            return carRepository.findCarsByUserId(userId);
-        }
+        return carRepository.findCarsByUserId(userId).stream()
+                .map(carMapper::carToCarResponse)
+                .toList();
     }
+}
 
 

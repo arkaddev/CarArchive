@@ -33,6 +33,7 @@ public class SecurityConfig {
                         .anyRequest().authenticated())
 
                 .httpBasic(Customizer.withDefaults())
+                //.logout(logout -> logout.logoutUrl("/logout"))
                 .build();
     }
 }

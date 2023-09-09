@@ -13,6 +13,6 @@ public interface CarService {
     CarResponse updateCar(Long id, CarRequest carRequest);
     String deleteCar(Long id);
 
-    List<Car> getAllCarbByLoggedUsername(String loggedUsername);
+    List<CarResponse> getCarsByLoggedUsername(String loggedUsername);
 
 }
