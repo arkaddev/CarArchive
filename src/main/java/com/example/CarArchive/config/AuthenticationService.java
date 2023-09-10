@@ -10,9 +10,6 @@ import org.springframework.stereotype.Service;
 public class AuthenticationService {
 
     public String getInfoAboutUser() {
-//        authentication = SecurityContextHolder.getContext().getAuthentication();
-//        String username = authentication.getName();
-//        return username;
         return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 }

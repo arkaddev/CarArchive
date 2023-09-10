@@ -1,5 +1,6 @@
 package com.example.CarArchive.controller;
 
+import com.example.CarArchive.config.AuthenticationService;
 import com.example.CarArchive.model.Part;
 import com.example.CarArchive.model.User;
 import com.example.CarArchive.service.UserService;
@@ -16,10 +17,12 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final AuthenticationService authenticationService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, AuthenticationService authenticationService) {
         this.userService = userService;
+        this.authenticationService = authenticationService;
     }
 
     @Operation(summary = "get all users", description = "")
@@ -32,6 +35,16 @@ public class UserController {
     @PostMapping("/users")
     public User addNewUser(@RequestBody User user) {
         return userService.addNewUser(user);
+    }
+
+    @Operation(summary = "get info about user", description = "")
+    @GetMapping("/info")
+    public String getInfo() {
+        return authenticationService.getInfoAboutUser();
+    }
+
+    public String getLoggedUser() {
+        return authenticationService.getInfoAboutUser();
     }
 }
 

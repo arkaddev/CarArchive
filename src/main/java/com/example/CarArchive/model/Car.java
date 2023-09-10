@@ -71,4 +71,12 @@ public class Car {
     public void setParts(List<Part> parts) {
         this.parts = parts;
     }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

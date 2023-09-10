@@ -3,6 +3,7 @@ package com.example.CarArchive.service;
 import com.example.CarArchive.dto.CarRequest;
 import com.example.CarArchive.dto.CarResponse;
 import com.example.CarArchive.model.Car;
+import com.example.CarArchive.model.User;
 import com.example.CarArchive.repository.CarRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,6 +37,7 @@ class CarServiceImplTest {
     private Car car2;
     private CarRequest carRequest;
 
+    private User user;
     @BeforeEach
     void setup() {
         car = new Car();
@@ -43,6 +45,7 @@ class CarServiceImplTest {
         car.setBrand("testBrand");
         car.setModel("testModel");
         car.setOwner("testOwner");
+        car.setUser(user);
 
         car2 = new Car();
         car2.setId(2L);
@@ -54,6 +57,10 @@ class CarServiceImplTest {
         carRequest.setBrand("testBrand3");
         carRequest.setModel("testModel3");
         carRequest.setOwner("testOwner3");
+
+        user = new User();
+        user.setId(1L);
+        user.setEmail("test@test.com");
     }
     @Test
     void getAllCars() {
@@ -116,5 +123,21 @@ class CarServiceImplTest {
     void deleteCar() {
 //        when(carRepository.findById(1L)).thenReturn(Optional.of(car));
 //        verify(carRepository, times(1)).deleteById(1L);
+    }
+
+    @Test
+    void getCarsByLoggedUsername() {
+        List<Car> cars = Arrays.asList(car);
+        when(carRepository.findCarsByUserId(1L)).thenReturn(cars);
+
+        List<CarResponse> serviceCars = carService.getCarsByLoggedUsername(user.getUsername());
+
+        verify(carRepository, times(1)).findCarsByUserId(1L);
+        assertEquals(1, serviceCars.size());
+
+        assertEquals("testBrand", serviceCars.get(0).getBrand());
+        assertEquals("testModel", serviceCars.get(0).getModel());
+        assertEquals("testOwner", serviceCars.get(0).getOwner());
+
     }
 }

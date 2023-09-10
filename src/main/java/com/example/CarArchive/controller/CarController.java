@@ -64,12 +64,6 @@ public class CarController {
         return ResponseEntity.ok(carService.getCarsByLoggedUsername(getLoggedUser()));
     }
 
-    @Operation(summary = "get info about user", description = "")
-    @GetMapping("/info")
-    public String getInfo() {
-        return authenticationService.getInfoAboutUser();
-    }
-
     public String getLoggedUser() {
         return authenticationService.getInfoAboutUser();
     }
