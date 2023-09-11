@@ -1,5 +1,7 @@
 package com.example.CarArchive.service;
 
+import com.example.CarArchive.dto.UserResponse;
+import com.example.CarArchive.mapper.UserMapper;
 import com.example.CarArchive.model.User;
 import com.example.CarArchive.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,16 +13,22 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
 
-    UserRepository userRepository;
+    public final UserRepository userRepository;
+    public final UserMapper userMapper;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper) {
         this.userRepository = userRepository;
+        this.userMapper = userMapper;
     }
 
+
+
     @Override
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public List<UserResponse> getAllUsers() {
+        return userRepository.findAll().stream()
+                .map(userMapper::userToUserResponse)
+                .toList();
     }
 
     @Override

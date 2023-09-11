@@ -1,6 +1,7 @@
 package com.example.CarArchive.controller;
 
 import com.example.CarArchive.config.AuthenticationService;
+import com.example.CarArchive.dto.UserResponse;
 import com.example.CarArchive.model.Part;
 import com.example.CarArchive.model.User;
 import com.example.CarArchive.service.UserService;
@@ -27,9 +28,11 @@ public class UserController {
 
     @Operation(summary = "get all users", description = "")
     @GetMapping("/users")
-    public List<User> getAllUsers() {
+    public List<UserResponse> getAllUsers() {
         return userService.getAllUsers();
     }
+
+
 
     @Operation(summary = "add new user", description = "")
     @PostMapping("/users")

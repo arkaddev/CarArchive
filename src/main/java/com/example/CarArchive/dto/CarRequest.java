@@ -1,5 +1,6 @@
 package com.example.CarArchive.dto;
 
+import com.example.CarArchive.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +13,7 @@ import lombok.Setter;
 public class CarRequest {
     private String brand;
     private String model;
-    private String owner;
+    private User owner;
 
     public String getBrand() {
         return brand;
@@ -30,11 +31,11 @@ public class CarRequest {
         this.model = model;
     }
 
-    public String getOwner() {
+    public User getOwner() {
         return owner;
     }
 
-    public void setOwner(String owner) {
+    public void setOwner(User owner) {
         this.owner = owner;
     }
 }

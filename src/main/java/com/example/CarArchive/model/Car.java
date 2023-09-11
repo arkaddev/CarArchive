@@ -22,7 +22,6 @@ public class Car {
     private Long id;
     private String brand;
     private String model;
-    private String owner;
     @OneToMany(mappedBy = "car")
     private List<Part> parts;
 
@@ -54,14 +53,6 @@ public class Car {
 
     public void setModel(String model) {
         this.model = model;
-    }
-
-    public String getOwner() {
-        return owner;
-    }
-
-    public void setOwner(String owner) {
-        this.owner = owner;
     }
 
     public List<Part> getParts() {

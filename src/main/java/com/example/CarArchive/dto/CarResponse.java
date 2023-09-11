@@ -1,6 +1,7 @@
 package com.example.CarArchive.dto;
 
 import com.example.CarArchive.model.Part;
+import com.example.CarArchive.model.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,13 +13,13 @@ public class CarResponse {
     private Long id;
     private String brand;
     private String model;
-    private String owner;
+    private User owner;
     private List<Part> parts;
 
     public CarResponse() {
     }
 
-    public CarResponse(Long id, String brand, String model, String owner, List<Part> parts) {
+    public CarResponse(Long id, String brand, String model, User owner, List<Part> parts) {
         this.id = id;
         this.brand = brand;
         this.model = model;
@@ -50,11 +51,11 @@ public class CarResponse {
         this.model = model;
     }
 
-    public String getOwner() {
+    public User getOwner() {
         return owner;
     }
 
-    public void setOwner(String owner) {
+    public void setOwner(User owner) {
         this.owner = owner;
     }
 

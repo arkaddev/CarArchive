@@ -38,30 +38,39 @@ class CarServiceImplTest {
     private CarRequest carRequest;
 
     private User user;
+    private User user2;
+
     @BeforeEach
     void setup() {
+
+        user = new User();
+        user.setId(1L);
+        user.setEmail("test@test.com");
+
+        user2 = new User();
+        user2.setId(2L);
+        user2.setEmail("test2@test.com");
+
         car = new Car();
         car.setId(1L);
         car.setBrand("testBrand");
         car.setModel("testModel");
-        car.setOwner("testOwner");
         car.setUser(user);
 
         car2 = new Car();
         car2.setId(2L);
         car2.setBrand("testBrand2");
         car2.setModel("testModel2");
-        car2.setOwner("testOwner2");
+        car2.setUser(user2);
 
         carRequest = new CarRequest();
         carRequest.setBrand("testBrand3");
         carRequest.setModel("testModel3");
-        carRequest.setOwner("testOwner3");
+        carRequest.setOwner(user2);
 
-        user = new User();
-        user.setId(1L);
-        user.setEmail("test@test.com");
+
     }
+
     @Test
     void getAllCars() {
         List<Car> cars = Arrays.asList(car, car2);
@@ -74,11 +83,11 @@ class CarServiceImplTest {
 
         assertEquals("testBrand", serviceCars.get(0).getBrand());
         assertEquals("testModel", serviceCars.get(0).getModel());
-        assertEquals("testOwner", serviceCars.get(0).getOwner());
+        assertEquals("test@test.com", serviceCars.get(0).getOwner().getUsername());
 
         assertEquals("testBrand2", serviceCars.get(1).getBrand());
         assertEquals("testModel2", serviceCars.get(1).getModel());
-        assertEquals("testOwner2", serviceCars.get(1).getOwner());
+        assertEquals("test2@test.com", serviceCars.get(1).getOwner().getUsername());
     }
 
     @Test
@@ -88,10 +97,10 @@ class CarServiceImplTest {
 
         verify(carRepository, times(1)).findById(1L);
 
-        assertEquals(1, serviceCar.getId());
+        assertEquals(1L, serviceCar.getId());
         assertEquals("testBrand", serviceCar.getBrand());
         assertEquals("testModel", serviceCar.getModel());
-        assertEquals("testOwner", serviceCar.getOwner());
+        assertEquals("test@test.com", serviceCar.getOwner().getUsername());
     }
 
     @Test
@@ -100,7 +109,7 @@ class CarServiceImplTest {
         CarResponse serviceResponse = carService.addNewCar(carRequest);
 
         verify(carRepository, times(1)).save(any(Car.class));
-        assertEquals(serviceResponse.getBrand(), "testBrand3");
+        assertEquals("testBrand3", serviceResponse.getBrand());
     }
 
     @Test
@@ -116,7 +125,7 @@ class CarServiceImplTest {
         assertEquals(1L, car.getId());
         assertEquals("testBrand3", car.getBrand());
         assertEquals("testModel3", car.getModel());
-        assertEquals("testOwner3", car.getOwner());
+        assertEquals("test2@test.com", car.getUser().getUsername());
     }
 
     @Test
@@ -137,7 +146,7 @@ class CarServiceImplTest {
 
         assertEquals("testBrand", serviceCars.get(0).getBrand());
         assertEquals("testModel", serviceCars.get(0).getModel());
-        assertEquals("testOwner", serviceCars.get(0).getOwner());
+        assertEquals("test@test.com", serviceCars.get(0).getOwner().getUsername());
 
     }
 }
