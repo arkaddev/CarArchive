@@ -19,7 +19,6 @@ public class CarServiceImpl implements CarService {
 
     private final CarRepository carRepository;
     private final CarMapper carMapper;
-
     private final UserService userService;
 
 
