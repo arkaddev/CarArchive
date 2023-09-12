@@ -1,14 +1,17 @@
 package com.example.CarArchive.service;
 
 import com.example.CarArchive.dto.UserResponse;
+import com.example.CarArchive.exception.UserNotFoundException;
 import com.example.CarArchive.mapper.UserMapper;
 import com.example.CarArchive.model.User;
 import com.example.CarArchive.repository.UserRepository;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -23,12 +26,17 @@ public class UserServiceImpl implements UserService {
     }
 
 
-
     @Override
     public List<UserResponse> getAllUsers() {
         return userRepository.findAll().stream()
                 .map(userMapper::userToUserResponse)
                 .toList();
+    }
+
+    @Override
+    public UserResponse getUserById(Long id) {
+        Optional<UserResponse> optionalUserResponse = userRepository.findById(id).map(userMapper::userToUserResponse);
+        return optionalUserResponse.orElseThrow(()-> new UserNotFoundException("User does not exist"));
     }
 
     @Override

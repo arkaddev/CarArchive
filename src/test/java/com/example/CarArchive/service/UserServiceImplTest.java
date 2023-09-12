@@ -12,9 +12,11 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+
 @SpringBootTest
 class UserServiceImplTest {
 
@@ -38,6 +40,7 @@ class UserServiceImplTest {
         user2.setId(2L);
         user2.setEmail("test2@test.com");
     }
+
     @Test
     void getAllUsers() {
 
@@ -54,4 +57,21 @@ class UserServiceImplTest {
         assertEquals("test2@test.com", userService.getAllUsers().get(1).getEmail());
 
     }
+
+    @Test
+    void getUserById() {
+        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+
+        assertEquals(1L, userService.getUserById(1L).getId());
+        assertEquals("test@test.com", userService.getUserById(1L).getEmail());
+    }
+
+    @Test
+    void getUserByIdWhenUserDoesNotExist() {
+        when(userRepository.findById(3L)).thenReturn(Optional.empty());
+
+        //assertNull(userService.getUserById(3L));
+    }
+
+
 }
