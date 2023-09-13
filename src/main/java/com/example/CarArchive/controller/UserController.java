@@ -1,12 +1,15 @@
 package com.example.CarArchive.controller;
 
 import com.example.CarArchive.config.AuthenticationService;
+import com.example.CarArchive.dto.UserRequest;
 import com.example.CarArchive.dto.UserResponse;
 import com.example.CarArchive.model.Part;
 import com.example.CarArchive.model.User;
 import com.example.CarArchive.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.function.EntityResponse;
@@ -40,8 +43,8 @@ public class UserController {
 
     @Operation(summary = "add new user", description = "")
     @PostMapping("/users")
-    public User addNewUser(@RequestBody User user) {
-        return userService.addNewUser(user);
+    public ResponseEntity<UserResponse> addNewUser(@RequestBody UserRequest userRequest) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.addNewUser(userRequest));
     }
 
     @Operation(summary = "get info about user", description = "")

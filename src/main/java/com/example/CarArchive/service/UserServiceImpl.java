@@ -1,8 +1,10 @@
 package com.example.CarArchive.service;
 
+import com.example.CarArchive.dto.UserRequest;
 import com.example.CarArchive.dto.UserResponse;
 import com.example.CarArchive.exception.UserNotFoundException;
 import com.example.CarArchive.mapper.UserMapper;
+import com.example.CarArchive.model.Role;
 import com.example.CarArchive.model.User;
 import com.example.CarArchive.repository.UserRepository;
 import org.springframework.beans.factory.ObjectProvider;
@@ -40,8 +42,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User addNewUser(User user) {
-        return userRepository.save(user);
+    public UserResponse addNewUser(UserRequest userRequest) {
+        User user = userMapper.userRequestToUser(userRequest);
+        user.setRole(Role.USER);
+        userRepository.save(user);
+        return new UserResponse(user.getId(), user.getFirstname(), user.getLastname(), user.getEmail());
     }
 
     @Override

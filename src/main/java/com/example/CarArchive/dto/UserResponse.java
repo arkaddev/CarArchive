@@ -13,10 +13,16 @@ public class UserResponse {
     private String firstname;
     private String lastname;
     private String email;
-
     private List<CarResponse> cars;
 
     public UserResponse() {
+    }
+
+    public UserResponse(Long id, String firstname, String lastname, String email) {
+        this.id = id;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
     }
 
     public UserResponse(Long id, String firstname, String lastname, String email, List<CarResponse> cars) {

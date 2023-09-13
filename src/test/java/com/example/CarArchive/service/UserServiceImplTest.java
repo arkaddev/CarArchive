@@ -1,5 +1,7 @@
 package com.example.CarArchive.service;
 
+import com.example.CarArchive.dto.UserRequest;
+import com.example.CarArchive.model.Car;
 import com.example.CarArchive.model.User;
 import com.example.CarArchive.repository.CarRepository;
 import com.example.CarArchive.repository.UserRepository;
@@ -29,6 +31,8 @@ class UserServiceImplTest {
     private User user;
     private User user2;
 
+    private UserRequest userRequest;
+
     @BeforeEach
     void setup() {
 
@@ -39,6 +43,11 @@ class UserServiceImplTest {
         user2 = new User();
         user2.setId(2L);
         user2.setEmail("test2@test.com");
+
+        userRequest = new UserRequest();
+        userRequest.setFirstname("testFirstname");
+        userRequest.setLastname("testLastname");
+        userRequest.setEmail("test@test.com");
     }
 
     @Test
@@ -73,5 +82,17 @@ class UserServiceImplTest {
         //assertNull(userService.getUserById(3L));
     }
 
+
+    @Test
+    void addNewUser() {
+        when(userRepository.save(any())).thenReturn(user);
+
+        //verify(userRepository, times(1)).save(any(User.class));
+
+        assertEquals("testFirstname", userService.addNewUser(userRequest).getFirstname());
+        assertEquals("testLastname", userService.addNewUser(userRequest).getLastname());
+        assertEquals("test@test.com", userService.addNewUser(userRequest).getEmail());
+    }
+        
 
 }
