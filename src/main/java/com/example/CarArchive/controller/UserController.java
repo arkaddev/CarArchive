@@ -40,12 +40,18 @@ public class UserController {
         return ResponseEntity.ok(userService.getUserById(id));
     }
 
-
     @Operation(summary = "add new user", description = "")
     @PostMapping("/users")
     public ResponseEntity<UserResponse> addNewUser(@RequestBody UserRequest userRequest) {
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.addNewUser(userRequest));
     }
+
+    @Operation(summary = "update user by id", description = "")
+    @PutMapping("/users/{id}")
+    public ResponseEntity<UserResponse> updateUser(@PathVariable Long id, @RequestBody UserRequest userRequest){
+        return ResponseEntity.ok(userService.updateUser(id, userRequest));
+    }
+
 
     @Operation(summary = "get info about user", description = "")
     @GetMapping("/info")

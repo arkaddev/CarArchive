@@ -1,5 +1,6 @@
 package com.example.CarArchive.service;
 
+import com.example.CarArchive.dto.CarResponse;
 import com.example.CarArchive.dto.UserRequest;
 import com.example.CarArchive.model.Car;
 import com.example.CarArchive.model.User;
@@ -64,7 +65,6 @@ class UserServiceImplTest {
 
         assertEquals(2L, userService.getAllUsers().get(1).getId());
         assertEquals("test2@test.com", userService.getAllUsers().get(1).getEmail());
-
     }
 
     @Test
@@ -82,7 +82,6 @@ class UserServiceImplTest {
         //assertNull(userService.getUserById(3L));
     }
 
-
     @Test
     void addNewUser() {
         when(userRepository.save(any())).thenReturn(user);
@@ -93,6 +92,18 @@ class UserServiceImplTest {
         assertEquals("testLastname", userService.addNewUser(userRequest).getLastname());
         assertEquals("test@test.com", userService.addNewUser(userRequest).getEmail());
     }
-        
 
+    @Test
+    void updateUser() {
+        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+        when(userRepository.save(any())).thenReturn(user);
+
+//        verify(userRepository, times(1)).findById(1L);
+//        verify(userRepository, times(1)).save(any());
+        assertEquals(1L, userService.updateUser(1L, userRequest).getId());
+        assertEquals("testFirstname", userService.updateUser(1L, userRequest).getFirstname());
+        assertEquals("testLastname", userService.updateUser(1L, userRequest).getLastname());
+        assertEquals("test@test.com", userService.updateUser(1L, userRequest).getEmail());
+
+    }
 }
