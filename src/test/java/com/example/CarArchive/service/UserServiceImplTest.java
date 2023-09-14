@@ -39,6 +39,8 @@ class UserServiceImplTest {
 
         user = new User();
         user.setId(1L);
+        user.setFirstname("testFirstname");
+        user.setLastname("testLastname");
         user.setEmail("test@test.com");
 
         user2 = new User();
@@ -104,6 +106,22 @@ class UserServiceImplTest {
         assertEquals("testFirstname", userService.updateUser(1L, userRequest).getFirstname());
         assertEquals("testLastname", userService.updateUser(1L, userRequest).getLastname());
         assertEquals("test@test.com", userService.updateUser(1L, userRequest).getEmail());
+
+    }
+
+    @Test
+    void deleteUser() {
+        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+        assertEquals("User 1 was deleted",userService.deleteUser(1L));
+    }
+
+    @Test
+    void getUserByUsername() {
+        when(userRepository.findByEmail("test@test.com")).thenReturn(Optional.of(user));
+
+        assertEquals(1L, userService.getUserByUsername("test@test.com").getId());
+        assertEquals("testFirstname", userService.getUserByUsername("test@test.com").getFirstname());
+        assertEquals("testLastname", userService.getUserByUsername("test@test.com").getLastname());
 
     }
 }

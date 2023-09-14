@@ -2,10 +2,7 @@ package com.example.CarArchive.service;
 
 import com.example.CarArchive.dto.UserRequest;
 import com.example.CarArchive.dto.UserResponse;
-import com.example.CarArchive.exception.CarNotFoundException;
-import com.example.CarArchive.exception.CarSaveException;
-import com.example.CarArchive.exception.UserNotFoundException;
-import com.example.CarArchive.exception.UserSaveException;
+import com.example.CarArchive.exception.*;
 import com.example.CarArchive.mapper.UserMapper;
 import com.example.CarArchive.model.Role;
 import com.example.CarArchive.model.User;
@@ -40,7 +37,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponse getUserById(Long id) {
         Optional<UserResponse> optionalUserResponse = userRepository.findById(id).map(userMapper::userToUserResponse);
-        return optionalUserResponse.orElseThrow(()-> new UserNotFoundException("User does not exist"));
+        return optionalUserResponse.orElseThrow(() -> new UserNotFoundException("User does not exist"));
     }
 
     @Override
@@ -58,7 +55,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponse updateUser(Long id, UserRequest userRequest) {
         Optional<User> optionalUserResponse = userRepository.findById(id);
-        User user = optionalUserResponse.orElseThrow(()->new CarNotFoundException("User does not exist"));
+        User user = optionalUserResponse.orElseThrow(() -> new CarNotFoundException("User does not exist"));
 
         user.setFirstname(userRequest.getFirstname());
         user.setLastname(userRequest.getLastname());
@@ -70,6 +67,16 @@ public class UserServiceImpl implements UserService {
             throw new UserSaveException("User cannot be saved");
         }
         return new UserResponse(user.getId(), user.getFirstname(), user.getLastname(), user.getEmail());
+    }
+
+    @Override
+    public String deleteUser(Long id) {
+        try {
+            userRepository.deleteById(id);
+        } catch (Exception e) {
+            throw new UserDeleteException("User cannot be deleted");
+        }
+        return "User " + id + " was deleted";
     }
 
     @Override

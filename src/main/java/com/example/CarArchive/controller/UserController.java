@@ -52,9 +52,14 @@ public class UserController {
         return ResponseEntity.ok(userService.updateUser(id, userRequest));
     }
 
+    @Operation(summary = "delete user by id", description = "")
+    @DeleteMapping("/users/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(userService.deleteUser(id));
+    }
 
     @Operation(summary = "get info about user", description = "")
-    @GetMapping("/info")
+    @GetMapping("/users/info")
     public String getInfo() {
         return authenticationService.getInfoAboutUser();
     }
