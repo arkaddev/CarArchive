@@ -29,8 +29,8 @@ public class CarController {
 
     @Operation(summary = "get all cars", description = "")
     @GetMapping("/cars")
-    public List<CarResponse> getAllCars() {
-        return carService.getAllCars();
+    public ResponseEntity<List<CarResponse>> getAllCars() {
+        return ResponseEntity.ok(carService.getAllCars());
     }
 
     @Operation(summary = "get car by id", description = "")
