@@ -1,5 +1,6 @@
 package com.example.CarArchive.controller;
 
+import com.example.CarArchive.dto.PartResponse;
 import com.example.CarArchive.model.Car;
 import com.example.CarArchive.model.Part;
 import com.example.CarArchive.repository.PartRepository;
@@ -23,7 +24,7 @@ public class PartController {
 
     @Operation(summary = "get all parts", description = "")
     @GetMapping("/parts")
-    public List<Part> getAllParts() {
+    public List<PartResponse> getAllParts() {
         return partService.getAllParts();
     }
 

@@ -1,5 +1,7 @@
 package com.example.CarArchive.service;
 
+import com.example.CarArchive.dto.PartResponse;
+import com.example.CarArchive.mapper.PartMapper;
 import com.example.CarArchive.model.Part;
 import com.example.CarArchive.repository.PartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,17 +13,18 @@ import java.util.Optional;
 @Service
 public class PartServiceImpl implements PartService {
 
-    PartRepository partRepository;
+    private final PartRepository partRepository;
+    private final PartMapper partMapper;
 
     @Autowired
-    public PartServiceImpl(PartRepository partRepository) {
+    public PartServiceImpl(PartRepository partRepository, PartMapper partMapper) {
         this.partRepository = partRepository;
+        this.partMapper = partMapper;
     }
 
-
     @Override
-    public List<Part> getAllParts() {
-        return partRepository.findAll();
+    public List<PartResponse> getAllParts() {
+        return partRepository.findAll().stream().map(partMapper::partToPartResponse).toList();
     }
 
     @Override
