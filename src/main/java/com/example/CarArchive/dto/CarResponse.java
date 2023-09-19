@@ -13,17 +13,17 @@ public class CarResponse {
     private Long id;
     private String brand;
     private String model;
-    private User owner;
+    private Long ownerId;
     private List<Part> parts;
 
     public CarResponse() {
     }
 
-    public CarResponse(Long id, String brand, String model, User owner, List<Part> parts) {
+    public CarResponse(Long id, String brand, String model, Long ownerId, List<Part> parts) {
         this.id = id;
         this.brand = brand;
         this.model = model;
-        this.owner = owner;
+        this.ownerId = ownerId;
         this.parts = parts;
     }
 
@@ -51,12 +51,12 @@ public class CarResponse {
         this.model = model;
     }
 
-    public User getOwner() {
-        return owner;
+    public Long getOwnerId() {
+        return ownerId;
     }
 
-    public void setOwner(User owner) {
-        this.owner = owner;
+    public void setOwnerId(Long ownerId) {
+        this.ownerId = ownerId;
     }
 
     public List<Part> getParts() {

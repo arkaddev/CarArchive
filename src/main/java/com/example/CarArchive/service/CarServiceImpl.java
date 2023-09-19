@@ -54,7 +54,7 @@ public class CarServiceImpl implements CarService {
         } catch (Exception e) {
             throw new CarSaveException("Car cannot be saved");
         }
-        return new CarResponse(car.getId(), car.getBrand(), car.getModel(), car.getUser(), car.getParts());
+        return new CarResponse(car.getId(), car.getBrand(), car.getModel(), car.getUser().getId(), car.getParts());
     }
 
     @Override
@@ -64,7 +64,7 @@ public class CarServiceImpl implements CarService {
         Car carToUpdate = optionalCar.orElseThrow(() -> new CarNotFoundException("Car does not exist"));
         carToUpdate.setBrand(carRequest.getBrand());
         carToUpdate.setModel(carRequest.getModel());
-        carToUpdate.setUser(carRequest.getOwner());
+        //carToUpdate.setUser(carRequest.getOwnerId());
 
         try {
             carRepository.save(carToUpdate);
@@ -72,7 +72,7 @@ public class CarServiceImpl implements CarService {
             throw new CarSaveException("Car cannot be saved");
         }
 
-        return new CarResponse(carToUpdate.getId(), carToUpdate.getBrand(), carToUpdate.getModel(), carToUpdate.getUser(), carToUpdate.getParts());
+        return new CarResponse(carToUpdate.getId(), carToUpdate.getBrand(), carToUpdate.getModel(), carToUpdate.getUser().getId(), carToUpdate.getParts());
         // }
 //        else{
 //          throw new CarNotFoundException("Car not exist");

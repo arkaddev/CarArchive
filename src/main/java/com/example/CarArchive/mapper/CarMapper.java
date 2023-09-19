@@ -9,13 +9,8 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface CarMapper {
-    @Mapping(source = "user", target = "owner")
-    CarRequest carToCarRequest(Car car);
-
-    @Mapping(source = "owner", target = "user")
+    @Mapping(source = "ownerId", target = "user.id")
     Car carRequestToCar(CarRequest carRequest);
-    @Mapping(source = "user", target = "owner")
+    @Mapping(source = "user.id", target = "ownerId")
     CarResponse carToCarResponse(Car car);
-    @Mapping(source = "owner", target = "user")
-    Car carResponseToCar(CarResponse carResponse);
 }

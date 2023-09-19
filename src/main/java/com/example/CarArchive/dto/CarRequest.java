@@ -13,7 +13,7 @@ import lombok.Setter;
 public class CarRequest {
     private String brand;
     private String model;
-    private User owner;
+    private Long ownerId;
 
     public String getBrand() {
         return brand;
@@ -31,11 +31,11 @@ public class CarRequest {
         this.model = model;
     }
 
-    public User getOwner() {
-        return owner;
+    public Long getOwnerId() {
+        return ownerId;
     }
 
-    public void setOwner(User owner) {
-        this.owner = owner;
+    public void setOwnerId(Long ownerId) {
+        this.ownerId = ownerId;
     }
 }
