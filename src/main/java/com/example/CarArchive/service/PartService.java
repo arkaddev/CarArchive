@@ -11,7 +11,7 @@ public interface PartService {
     PartResponse getPartById(Long id);
     PartResponse addNewPart(PartRequest partRequest);
     PartResponse updatePart(Long id, PartRequest partRequest);
-    void deletePart(Long id);
+    String deletePart(Long id);
 
 
     List<Object[]> getPartsToExchangeByMileage(int km, Long carId);

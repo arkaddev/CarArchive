@@ -44,8 +44,8 @@ public class PartController {
 
     @Operation(summary = "delete part by id", description = "")
     @DeleteMapping("/part/{id}")
-    public void deleteCar(@PathVariable Long id){
-        partService.deletePart(id);
+    public String deleteCar(@PathVariable Long id) {
+        return partService.deletePart(id);
     }
 
     @Operation(summary = "update part", description = "")

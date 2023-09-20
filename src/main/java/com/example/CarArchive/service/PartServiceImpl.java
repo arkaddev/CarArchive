@@ -75,8 +75,9 @@ public class PartServiceImpl implements PartService {
     }
 
     @Override
-    public void deletePart(Long id) {
+    public String deletePart(Long id) {
         partRepository.deleteById(id);
+        return "Part " + id + " was deleted";
     }
 
     @Override
