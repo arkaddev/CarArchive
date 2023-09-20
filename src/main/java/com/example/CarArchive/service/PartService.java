@@ -1,5 +1,6 @@
 package com.example.CarArchive.service;
 
+import com.example.CarArchive.dto.PartRequest;
 import com.example.CarArchive.dto.PartResponse;
 import com.example.CarArchive.model.Part;
 
@@ -8,7 +9,7 @@ import java.util.List;
 public interface PartService {
     List<PartResponse> getAllParts();
     PartResponse getPartById(Long id);
-    Part addNewPart(Part part);
+    PartResponse addNewPart(PartRequest partRequest);
     Part updatePart(Long id, Part part);
     void deletePart(Long id);
 

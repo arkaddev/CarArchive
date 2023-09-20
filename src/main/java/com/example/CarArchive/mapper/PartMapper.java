@@ -1,5 +1,6 @@
 package com.example.CarArchive.mapper;
 
+import com.example.CarArchive.dto.PartRequest;
 import com.example.CarArchive.dto.PartResponse;
 import com.example.CarArchive.model.Part;
 
@@ -8,5 +9,7 @@ import com.example.CarArchive.model.Part;
 public interface PartMapper {
     //@Mapping(source = "car.id", target = "carId")
     PartResponse partToPartResponse(Part part);
+
+    Part partRequestToPart(PartRequest partRequest);
 
 }

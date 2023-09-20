@@ -1,5 +1,6 @@
 package com.example.CarArchive.service;
 
+import com.example.CarArchive.dto.PartRequest;
 import com.example.CarArchive.dto.PartResponse;
 import com.example.CarArchive.mapper.PartMapper;
 import com.example.CarArchive.model.Part;
@@ -35,8 +36,12 @@ public class PartServiceImpl implements PartService {
     }
 
     @Override
-    public Part addNewPart(Part part) {
-        return partRepository.save(part);
+    public PartResponse addNewPart(PartRequest partRequest) {
+
+        Part part = partMapper.partRequestToPart(partRequest);
+        partRepository.save(part);
+
+        return new PartResponse();
     }
 
     @Override

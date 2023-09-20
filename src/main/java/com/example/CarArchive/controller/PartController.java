@@ -1,5 +1,6 @@
 package com.example.CarArchive.controller;
 
+import com.example.CarArchive.dto.PartRequest;
 import com.example.CarArchive.dto.PartResponse;
 import com.example.CarArchive.model.Car;
 import com.example.CarArchive.model.Part;
@@ -37,8 +38,8 @@ public class PartController {
 
     @Operation(summary = "add new part", description = "")
     @PostMapping("/parts")
-    public Part addNewPart(@RequestBody Part part) {
-        return partService.addNewPart(part);
+    public PartResponse addNewPart(@RequestBody PartRequest partRequest) {
+        return partService.addNewPart(partRequest);
     }
 
     @Operation(summary = "delete part by id", description = "")

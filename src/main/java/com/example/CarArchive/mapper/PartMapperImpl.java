@@ -1,6 +1,8 @@
 package com.example.CarArchive.mapper;
 
+import com.example.CarArchive.dto.PartRequest;
 import com.example.CarArchive.dto.PartResponse;
+import com.example.CarArchive.model.Car;
 import com.example.CarArchive.model.Part;
 import org.springframework.stereotype.Service;
 
@@ -22,5 +24,26 @@ public class PartMapperImpl implements PartMapper {
         partResponse.setUserId(part.getCar().getUser().getId());
 
         return partResponse;
+    }
+
+    @Override
+    public Part partRequestToPart(PartRequest partRequest) {
+
+
+        Part part = new Part();
+
+        part.setName(partRequest.getName());
+        part.setMileage(partRequest.getMileage());
+        part.setDate(partRequest.getDate());
+        part.setPartPrice(partRequest.getPartPrice());
+        part.setRepairPrice(partRequest.getRepairPrice());
+        part.setNextExchange(partRequest.getNextExchange());
+
+        Car car = new Car();
+        car.setId(partRequest.getCarId());
+
+        part.setCar(car);
+
+        return part;
     }
 }
