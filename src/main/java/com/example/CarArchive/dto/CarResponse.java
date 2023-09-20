@@ -14,12 +14,12 @@ public class CarResponse {
     private String brand;
     private String model;
     private Long ownerId;
-    private List<Part> parts;
+    private List<PartResponse> parts;
 
     public CarResponse() {
     }
 
-    public CarResponse(Long id, String brand, String model, Long ownerId, List<Part> parts) {
+    public CarResponse(Long id, String brand, String model, Long ownerId, List<PartResponse> parts) {
         this.id = id;
         this.brand = brand;
         this.model = model;
@@ -59,11 +59,11 @@ public class CarResponse {
         this.ownerId = ownerId;
     }
 
-    public List<Part> getParts() {
+    public List<PartResponse> getParts() {
         return parts;
     }
 
-    public void setParts(List<Part> parts) {
+    public void setParts(List<PartResponse> parts) {
         this.parts = parts;
     }
 }

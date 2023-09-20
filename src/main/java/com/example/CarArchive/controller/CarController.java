@@ -39,18 +39,18 @@ public class CarController {
         return ResponseEntity.ok(carService.getCarById(id));
     }
 
-    @Operation(summary = "add new car", description = "")
-    @PostMapping("/cars")
-    public ResponseEntity<CarResponse> addNewCar(@RequestBody CarRequest carRequest) {
-        //return ResponseEntity.ok(carService.addNewCar(carRequest));
-        return ResponseEntity.status(HttpStatus.CREATED).body(carService.addNewCar(carRequest));
-    }
-
-    @Operation(summary = "update car", description = "")
-    @PutMapping("/cars/{id}")
-    public ResponseEntity<CarResponse> updateCar(@PathVariable Long id, @RequestBody CarRequest carRequest) {
-        return ResponseEntity.ok(carService.updateCar(id, carRequest));
-    }
+//    @Operation(summary = "add new car", description = "")
+//    @PostMapping("/cars")
+//    public ResponseEntity<CarResponse> addNewCar(@RequestBody CarRequest carRequest) {
+//        //return ResponseEntity.ok(carService.addNewCar(carRequest));
+//        return ResponseEntity.status(HttpStatus.CREATED).body(carService.addNewCar(carRequest));
+//    }
+//
+//    @Operation(summary = "update car", description = "")
+//    @PutMapping("/cars/{id}")
+//    public ResponseEntity<CarResponse> updateCar(@PathVariable Long id, @RequestBody CarRequest carRequest) {
+//        return ResponseEntity.ok(carService.updateCar(id, carRequest));
+//    }
 
     @Operation(summary = "delete car by id", description = "")
     @DeleteMapping("/car/{id}")

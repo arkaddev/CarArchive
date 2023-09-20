@@ -7,6 +7,7 @@ import com.example.CarArchive.repository.PartRepository;
 import com.example.CarArchive.service.PartService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,8 +25,8 @@ public class PartController {
 
     @Operation(summary = "get all parts", description = "")
     @GetMapping("/parts")
-    public List<PartResponse> getAllParts() {
-        return partService.getAllParts();
+    public ResponseEntity<List<PartResponse>> getAllParts() {
+        return ResponseEntity.ok(partService.getAllParts());
     }
 
     @Operation(summary = "get part by id", description = "")
