@@ -14,6 +14,7 @@ public class PartResponse {
     private String repairPrice;
     private int nextExchange;
     private Long carId;
+    private Long userId;
 
     public Long getId() {
         return id;
@@ -77,5 +78,13 @@ public class PartResponse {
 
     public void setCarId(Long carId) {
         this.carId = carId;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }

@@ -19,6 +19,7 @@ public class PartMapperImpl implements PartMapper {
         partResponse.setRepairPrice(part.getRepairPrice());
         partResponse.setNextExchange(part.getNextExchange());
         partResponse.setCarId(part.getCar().getId());
+        partResponse.setUserId(part.getCar().getUser().getId());
 
         return partResponse;
     }
