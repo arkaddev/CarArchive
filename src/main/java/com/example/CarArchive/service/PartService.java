@@ -10,7 +10,7 @@ public interface PartService {
     List<PartResponse> getAllParts();
     PartResponse getPartById(Long id);
     PartResponse addNewPart(PartRequest partRequest);
-    Part updatePart(Long id, Part part);
+    PartResponse updatePart(Long id, PartRequest partRequest);
     void deletePart(Long id);
 
 

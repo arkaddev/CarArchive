@@ -3,7 +3,9 @@ package com.example.CarArchive.service;
 import com.example.CarArchive.dto.PartRequest;
 import com.example.CarArchive.dto.PartResponse;
 import com.example.CarArchive.mapper.PartMapper;
+import com.example.CarArchive.model.Car;
 import com.example.CarArchive.model.Part;
+import com.example.CarArchive.model.User;
 import com.example.CarArchive.repository.PartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,22 +43,35 @@ public class PartServiceImpl implements PartService {
         Part part = partMapper.partRequestToPart(partRequest);
         partRepository.save(part);
 
-        return new PartResponse();
+        return new PartResponse(part.getId(), part.getName(), part.getMileage(), part.getDate(), part.getPartPrice(), part.getRepairPrice(), part.getNextExchange(), part.getCar().getId(), part.getCar().getUser().getId());
     }
 
     @Override
-    public Part updatePart(Long id, Part part) {
-//        Part partToUpdate = getPartById(id);
-//
-//        partToUpdate.setName(part.getName());
-//        partToUpdate.setMileage(part.getMileage());
-//        partToUpdate.setDate(part.getDate());
-//        partToUpdate.setPartPrice(part.getPartPrice());
-//        partToUpdate.setRepairPrice(part.getRepairPrice());
-//        partToUpdate.setNextExchange(part.getNextExchange());
-//
-//        return partRepository.save(partToUpdate);
-        return null;
+    public PartResponse updatePart(Long id, PartRequest partRequest) {
+
+        Part partToUpdate = partRepository.findById(id).orElseThrow();
+
+        partToUpdate.setName(partRequest.getName());
+        partToUpdate.setMileage(partRequest.getMileage());
+        partToUpdate.setDate(partRequest.getDate());
+        partToUpdate.setPartPrice(partRequest.getPartPrice());
+        partToUpdate.setRepairPrice(partRequest.getRepairPrice());
+        partToUpdate.setNextExchange(partRequest.getNextExchange());
+        Car car = new Car();
+        car.setId(partRequest.getCarId());
+
+        User user = new User();
+        user.setId(partRequest.getUserId());
+
+        car.setUser(user);
+
+        partToUpdate.setCar(car);
+
+        partRepository.save(partToUpdate);
+
+        return new PartResponse(partToUpdate.getId(), partToUpdate.getName(), partToUpdate.getMileage(), partToUpdate.getDate(), partToUpdate.getPartPrice(), partToUpdate.getRepairPrice(), partToUpdate.getNextExchange(), partToUpdate.getCar().getId(), partToUpdate.getCar().getUser().getId());
+
+
     }
 
     @Override

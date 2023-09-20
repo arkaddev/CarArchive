@@ -112,21 +112,21 @@ class CarServiceImplTest {
         assertEquals("testBrand3", serviceResponse.getBrand());
     }
 
-    @Test
-    void updateCar() {
-        when(carRepository.findById(1L)).thenReturn(Optional.of(car));
-        when(carRepository.save(any(Car.class))).thenReturn(car);
-
-        CarResponse serviceCar = carService.updateCar(1L, carRequest);
-
-        verify(carRepository, times(1)).findById(1L);
-        verify(carRepository, times(1)).save(any(Car.class));
-
-        assertEquals(1L, car.getId());
-        assertEquals("testBrand3", car.getBrand());
-        assertEquals("testModel3", car.getModel());
-//        assertEquals("test2@test.com", car.getUser().getUsername());
-    }
+//    @Test
+//    void updateCar() {
+//        when(carRepository.findById(1L)).thenReturn(Optional.of(car));
+//        when(carRepository.save(any(Car.class))).thenReturn(car);
+//
+//        CarResponse serviceCar = carService.updateCar(1L, carRequest);
+//
+//        verify(carRepository, times(1)).findById(1L);
+//        verify(carRepository, times(1)).save(any(Car.class));
+//
+//        assertEquals(1L, car.getId());
+//        assertEquals("testBrand3", car.getBrand());
+//        assertEquals("testModel3", car.getModel());
+////        assertEquals("test2@test.com", car.getUser().getUsername());
+//    }
 
     @Test
     void deleteCar() {

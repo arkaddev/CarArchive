@@ -4,6 +4,7 @@ import com.example.CarArchive.dto.PartRequest;
 import com.example.CarArchive.dto.PartResponse;
 import com.example.CarArchive.model.Car;
 import com.example.CarArchive.model.Part;
+import com.example.CarArchive.model.User;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -41,6 +42,11 @@ public class PartMapperImpl implements PartMapper {
 
         Car car = new Car();
         car.setId(partRequest.getCarId());
+
+        User user = new User();
+        user.setId(partRequest.getUserId());
+
+        car.setUser(user);
 
         part.setCar(car);
 

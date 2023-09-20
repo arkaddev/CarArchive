@@ -50,8 +50,8 @@ public class PartController {
 
     @Operation(summary = "update part", description = "")
     @PutMapping("/parts/{id}")
-    public Part updateCar(@PathVariable Long id, @RequestBody Part part) {
-        return partService.updatePart(id, part);
+    public PartResponse updateCar(@PathVariable Long id, @RequestBody PartRequest partRequest) {
+        return partService.updatePart(id, partRequest);
     }
 
     @Operation(summary = "get parts to exchange by mileage", description = "")

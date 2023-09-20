@@ -16,6 +16,21 @@ public class PartResponse {
     private Long carId;
     private Long userId;
 
+    public PartResponse() {
+    }
+
+    public PartResponse(Long id, String name, int mileage, String date, String partPrice, String repairPrice, int nextExchange, Long carId, Long userId) {
+        this.id = id;
+        this.name = name;
+        this.mileage = mileage;
+        this.date = date;
+        this.partPrice = partPrice;
+        this.repairPrice = repairPrice;
+        this.nextExchange = nextExchange;
+        this.carId = carId;
+        this.userId = userId;
+    }
+
     public Long getId() {
         return id;
     }
