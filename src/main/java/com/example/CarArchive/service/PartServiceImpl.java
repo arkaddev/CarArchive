@@ -28,10 +28,10 @@ public class PartServiceImpl implements PartService {
     }
 
     @Override
-    public Part getPartById(Long id) {
-        Optional<Part> optionalPart = partRepository.findById(id);
-        Part part = optionalPart.orElseThrow();
-        return part;
+    public PartResponse getPartById(Long id) {
+        Optional<PartResponse> optionalPart = partRepository.findById(id).map(partMapper::partToPartResponse);
+        PartResponse partResponse = optionalPart.orElseThrow();
+        return partResponse;
     }
 
     @Override
@@ -41,16 +41,17 @@ public class PartServiceImpl implements PartService {
 
     @Override
     public Part updatePart(Long id, Part part) {
-        Part partToUpdate = getPartById(id);
-
-        partToUpdate.setName(part.getName());
-        partToUpdate.setMileage(part.getMileage());
-        partToUpdate.setDate(part.getDate());
-        partToUpdate.setPartPrice(part.getPartPrice());
-        partToUpdate.setRepairPrice(part.getRepairPrice());
-        partToUpdate.setNextExchange(part.getNextExchange());
-
-        return partRepository.save(partToUpdate);
+//        Part partToUpdate = getPartById(id);
+//
+//        partToUpdate.setName(part.getName());
+//        partToUpdate.setMileage(part.getMileage());
+//        partToUpdate.setDate(part.getDate());
+//        partToUpdate.setPartPrice(part.getPartPrice());
+//        partToUpdate.setRepairPrice(part.getRepairPrice());
+//        partToUpdate.setNextExchange(part.getNextExchange());
+//
+//        return partRepository.save(partToUpdate);
+        return null;
     }
 
     @Override

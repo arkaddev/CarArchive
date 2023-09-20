@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface PartService {
     List<PartResponse> getAllParts();
-    Part getPartById(Long id);
+    PartResponse getPartById(Long id);
     Part addNewPart(Part part);
     Part updatePart(Long id, Part part);
     void deletePart(Long id);

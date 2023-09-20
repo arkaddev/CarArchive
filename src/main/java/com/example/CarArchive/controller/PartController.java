@@ -31,7 +31,7 @@ public class PartController {
 
     @Operation(summary = "get part by id", description = "")
     @GetMapping("/parts/{id}")
-    public Part getPartById(@PathVariable Long id) {
+    public PartResponse getPartById(@PathVariable Long id) {
         return partService.getPartById(id);
     }
 
