@@ -2,6 +2,7 @@ package com.example.CarArchive.service;
 
 import com.example.CarArchive.dto.PartRequest;
 import com.example.CarArchive.dto.PartResponse;
+import com.example.CarArchive.exception.CarNotFoundException;
 import com.example.CarArchive.exception.PartDeleteException;
 import com.example.CarArchive.exception.PartNotFoundException;
 import com.example.CarArchive.exception.PartSaveException;
@@ -9,6 +10,7 @@ import com.example.CarArchive.mapper.PartMapper;
 import com.example.CarArchive.model.Car;
 import com.example.CarArchive.model.Part;
 import com.example.CarArchive.model.User;
+import com.example.CarArchive.repository.CarRepository;
 import com.example.CarArchive.repository.PartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,11 +22,13 @@ import java.util.Optional;
 public class PartServiceImpl implements PartService {
 
     private final PartRepository partRepository;
+    private final CarRepository carRepository;
     private final PartMapper partMapper;
 
     @Autowired
-    public PartServiceImpl(PartRepository partRepository, PartMapper partMapper) {
+    public PartServiceImpl(PartRepository partRepository, CarRepository carRepository, PartMapper partMapper) {
         this.partRepository = partRepository;
+        this.carRepository = carRepository;
         this.partMapper = partMapper;
     }
 
@@ -57,7 +61,7 @@ public class PartServiceImpl implements PartService {
     @Override
     public PartResponse updatePart(Long id, PartRequest partRequest) {
 
-        Part partToUpdate = partRepository.findById(id).orElseThrow();
+        Part partToUpdate = partRepository.findById(id).orElseThrow(()-> new PartNotFoundException("Part does not exist"));
 
         partToUpdate.setName(partRequest.getName());
         partToUpdate.setMileage(partRequest.getMileage());
@@ -100,6 +104,8 @@ public class PartServiceImpl implements PartService {
 
     @Override
     public List<Object[]> getPartsToExchangeByMileage(int km, Long carId) {
-        return partRepository.findPartsByMileage(km, carId);
+        Car car = carRepository.findById(carId).orElseThrow(()-> new CarNotFoundException("Car does not exist"));
+        List<Object[]> objects = partRepository.findPartsByMileage(km, carId);
+        return objects;
     }
 }
