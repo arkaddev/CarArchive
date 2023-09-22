@@ -46,16 +46,16 @@ public class CarServiceImpl implements CarService {
         return optionalCar.orElseThrow(() -> new CarNotFoundException("Car does not exist"));
     }
 
-//    @Override
-//    public CarResponse addNewCar(CarRequest carRequest) {
-//        Car car = carMapper.carRequestToCar(carRequest);
-//        try {
-//            carRepository.save(car);
-//        } catch (Exception e) {
-//            throw new CarSaveException("Car cannot be saved");
-//        }
-//        return new CarResponse(car.getId(), car.getBrand(), car.getModel(), car.getUser().getId(), car.getParts());
-//    }
+    @Override
+    public CarResponse addNewCar(CarRequest carRequest) {
+        Car car = carMapper.carRequestToCar(carRequest);
+        try {
+            carRepository.save(car);
+        } catch (Exception e) {
+            throw new CarSaveException("Car cannot be saved");
+        }
+        return new CarResponse(car.getId(), car.getBrand(), car.getModel(), car.getUser().getId());
+    }
 //
 //    @Override
 //    public CarResponse updateCar(Long id, CarRequest carRequest) {

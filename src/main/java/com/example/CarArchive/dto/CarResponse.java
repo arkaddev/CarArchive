@@ -19,6 +19,13 @@ public class CarResponse {
     public CarResponse() {
     }
 
+    public CarResponse(Long id, String brand, String model, Long ownerId) {
+        this.id = id;
+        this.brand = brand;
+        this.model = model;
+        this.ownerId = ownerId;
+    }
+
     public CarResponse(Long id, String brand, String model, Long ownerId, List<PartResponse> parts) {
         this.id = id;
         this.brand = brand;
