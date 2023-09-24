@@ -122,8 +122,16 @@ class UserServiceImplTest {
     void getUserById() {
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
 
-        //   assertEquals(1L, userService.getUserById(1L).getId());
-        // assertEquals("test@test.com", userService.getUserById(1L).getEmail());
+        UserResponse output = userService.getUserById(1L);
+
+        verify(userRepository, times(1)).findById(1L);
+
+        assertEquals(1L, output.getId());
+        assertEquals("test1@test.com", output.getEmail());
+        assertEquals(1L, output.getCars().get(0).getOwnerId());
+        assertEquals("testBrand1", output.getCars().get(0).getBrand());
+        assertEquals(1L, output.getCars().get(0).getParts().get(0).getId());
+        assertEquals("testPart1", output.getCars().get(0).getParts().get(0).getName());
     }
 
     @Test
