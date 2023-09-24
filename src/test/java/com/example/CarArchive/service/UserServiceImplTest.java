@@ -4,6 +4,7 @@ import com.example.CarArchive.dto.CarResponse;
 import com.example.CarArchive.dto.PartResponse;
 import com.example.CarArchive.dto.UserRequest;
 import com.example.CarArchive.dto.UserResponse;
+import com.example.CarArchive.exception.UserNotFoundException;
 import com.example.CarArchive.model.Car;
 import com.example.CarArchive.model.Part;
 import com.example.CarArchive.model.Role;
@@ -12,10 +13,12 @@ import com.example.CarArchive.repository.CarRepository;
 import com.example.CarArchive.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.io.FileNotFoundException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -126,6 +129,15 @@ class UserServiceImplTest {
     }
 
 //    @Test
+//    void getUserByIdWhenUserDoesNotExist() {
+//        when(userRepository.findById(3L)).thenReturn(Optional.empty());
+//
+//
+//        UserResponse output = userService.getUserById(3L);
+//        assertNull(output);
+//    }
+
+//    @Test
 //    void addNewUser() {
 //        when(userRepository.save(any())).thenReturn(user);
 //
@@ -146,8 +158,8 @@ class UserServiceImplTest {
 
         UserResponse output = userService.updateUser(1L, userRequest);
 
-//        verify(userRepository, times(1)).findById(1L);
-//        verify(userRepository, times(1)).save(any());
+        verify(userRepository, times(1)).findById(1L);
+        verify(userRepository, times(1)).save(any());
 
         assertEquals(1L, output.getId());
         assertEquals("testFirstname", output.getFirstname());
@@ -155,12 +167,17 @@ class UserServiceImplTest {
         assertEquals("test@test.com", output.getEmail());
     }
 
-    //
-//    @Test
-//    void deleteUser() {
-//        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
-//        assertEquals("User 1 was deleted",userService.deleteUser(1L));
-//    }
+
+    @Test
+    void deleteUser() {
+        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+
+        String output = userService.deleteUser(1L);
+
+        verify(userRepository, times(1)).deleteById(1L);
+
+        assertEquals("User 1 was deleted", output);
+    }
 //
 //    @Test
 //    void getUserByUsername() {
@@ -171,10 +188,5 @@ class UserServiceImplTest {
 //        assertEquals("testLastname", userService.getUserByUsername("test@test.com").getLastname());
 //
 //    }
-    @Test
-    void getUserByIdWhenUserDoesNotExist() {
-        when(userRepository.findById(3L)).thenReturn(Optional.empty());
 
-        //assertNull(userService.getUserById(3L));
-    }
 }
