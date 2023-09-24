@@ -13,7 +13,6 @@ public class PartMapperImpl implements PartMapper {
     public PartResponse partToPartResponse(Part part) {
 
         PartResponse partResponse = new PartResponse();
-
         partResponse.setId(part.getId());
         partResponse.setName(part.getName());
         partResponse.setMileage(part.getMileage());
@@ -26,7 +25,6 @@ public class PartMapperImpl implements PartMapper {
 
         return partResponse;
     }
-
     @Override
     public Part partRequestToPart(PartRequest partRequest) {
 

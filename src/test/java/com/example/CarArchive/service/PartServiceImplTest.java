@@ -1,6 +1,7 @@
 package com.example.CarArchive.service;
 
 import com.example.CarArchive.dto.PartResponse;
+import com.example.CarArchive.mapper.PartMapper;
 import com.example.CarArchive.model.Car;
 import com.example.CarArchive.model.Part;
 import com.example.CarArchive.model.User;
@@ -23,19 +24,29 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 class PartServiceImplTest {
 
-    @InjectMocks
+    private final PartMapper partMapper;
+
+    @Autowired
+    public PartServiceImplTest(PartMapper partMapper) {
+        this.partMapper = partMapper;
+    }
+
+    @Autowired
     private PartService partService;
 
-    @Mock
+    @MockBean
     private PartRepository partRepository;
 
+    private User user;
+    private User user2;
+    private Car car;
+    private Car car2;
     private Part part;
     private Part part2;
 
     private PartResponse partResponse;
     private PartResponse partResponse2;
-    private Car car;
-    private User user;
+
 
     @BeforeEach
     void setup() {
@@ -44,8 +55,6 @@ class PartServiceImplTest {
 
         car = new Car();
         car.setId(1L);
-        car.setModel("testModel1");
-        car.setBrand("testBrand1");
         car.setUser(user);
 
         part = new Part();
@@ -53,9 +62,17 @@ class PartServiceImplTest {
         part.setName("testPart1");
         part.setCar(car);
 
+        user2 = new User();
+        user2.setId(2L);
+
+        car2 = new Car();
+        car2.setId(2L);
+        car2.setUser(user2);
+
         part2 = new Part();
         part2.setId(2L);
         part2.setName("testPart2");
+        part2.setCar(car);
 
         partResponse = new PartResponse();
         partResponse.setId(1L);
@@ -68,8 +85,7 @@ class PartServiceImplTest {
 
         when(partRepository.findAll()).thenReturn(parts);
         List<PartResponse> output = partService.getAllParts();
-
-        assertEquals("", output.get(0).getName());
+        assertEquals("testPart1", output.get(0).getName());
     }
 
     @Test
