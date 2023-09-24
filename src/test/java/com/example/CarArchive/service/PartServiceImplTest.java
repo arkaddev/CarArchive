@@ -1,5 +1,6 @@
 package com.example.CarArchive.service;
 
+import com.example.CarArchive.dto.CarResponse;
 import com.example.CarArchive.dto.PartResponse;
 import com.example.CarArchive.mapper.PartMapper;
 import com.example.CarArchive.model.Car;
@@ -18,6 +19,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -103,6 +105,16 @@ class PartServiceImplTest {
 
     @Test
     void getPartById() {
+        when(partRepository.findById(1L)).thenReturn(Optional.of(part));
+
+        PartResponse output = partService.getPartById(1L);
+
+        verify(partRepository, times(1)).findById(1L);
+
+        assertEquals(1L, output.getId());
+        assertEquals("testPart1", output.getName());
+        assertEquals(1L, output.getCarId());
+        assertEquals(1L, output.getUserId());
     }
 
     @Test
