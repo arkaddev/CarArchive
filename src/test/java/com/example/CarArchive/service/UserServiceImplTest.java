@@ -52,7 +52,6 @@ class UserServiceImplTest {
         user.setEmail("test1@test.com");
         user.setFirstname("testFirstname");
         user.setLastname("testLastname");
-        user.setRole(Role.USER);
 
         car = new Car();
         car.setId(1L);
@@ -84,9 +83,9 @@ class UserServiceImplTest {
         car2.setParts(Arrays.asList(part2));
 
         userRequest = new UserRequest();
-        userRequest.setFirstname("testFirstname");
-        userRequest.setLastname("testLastname");
-        userRequest.setEmail("test@test.com");
+        userRequest.setFirstname("testFirstnameUserRequest1");
+        userRequest.setLastname("testLastnameUserRequest1");
+        userRequest.setEmail("testUserRequest1@test.com");
     }
 
     @Test
@@ -147,9 +146,9 @@ class UserServiceImplTest {
 
         verify(userRepository, times(1)).save(any(User.class));
 
-        assertEquals("testFirstname", userService.addNewUser(userRequest).getFirstname());
-        assertEquals("testLastname", userService.addNewUser(userRequest).getLastname());
-        assertEquals("test@test.com", userService.addNewUser(userRequest).getEmail());
+        assertEquals("testFirstnameUserRequest1", userService.addNewUser(userRequest).getFirstname());
+        assertEquals("testLastnameUserRequest1", userService.addNewUser(userRequest).getLastname());
+        assertEquals("testUserRequest1@test.com", userService.addNewUser(userRequest).getEmail());
      }
 
     @Test
@@ -163,9 +162,9 @@ class UserServiceImplTest {
         verify(userRepository, times(1)).save(any());
 
         assertEquals(1L, output.getId());
-        assertEquals("testFirstname", output.getFirstname());
-        assertEquals("testLastname", output.getLastname());
-        assertEquals("test@test.com", output.getEmail());
+        assertEquals("testFirstnameUserRequest1", output.getFirstname());
+        assertEquals("testLastnameUserRequest1", output.getLastname());
+        assertEquals("testUserRequest1@test.com", output.getEmail());
     }
 
     @Test

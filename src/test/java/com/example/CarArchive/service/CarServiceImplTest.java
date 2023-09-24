@@ -2,7 +2,10 @@ package com.example.CarArchive.service;
 
 import com.example.CarArchive.dto.CarRequest;
 import com.example.CarArchive.dto.CarResponse;
+import com.example.CarArchive.dto.UserRequest;
 import com.example.CarArchive.model.Car;
+import com.example.CarArchive.model.Part;
+import com.example.CarArchive.model.Role;
 import com.example.CarArchive.model.User;
 import com.example.CarArchive.repository.CarRepository;
 import org.junit.jupiter.api.Assertions;
@@ -18,6 +21,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -33,42 +37,57 @@ class CarServiceImplTest {
     @MockBean
     private CarRepository carRepository;
 
-    private Car car;
-    private Car car2;
-    private CarRequest carRequest;
-
     private User user;
     private User user2;
+    private Car car;
+    private Car car2;
+    private Part part;
+    private Part part2;
+
+
+    private CarRequest carRequest;
 
     @BeforeEach
     void setup() {
-
         user = new User();
         user.setId(1L);
-        user.setEmail("test@test.com");
+        user.setEmail("test1@test.com");
+        user.setFirstname("testFirstname");
+        user.setLastname("testLastname");
+
+        car = new Car();
+        car.setId(1L);
+        car.setBrand("testBrand1");
+        car.setUser(user);
+        user.setCars(Arrays.asList(car));
+
+        part = new Part();
+        part.setId(1L);
+        part.setName("testPart1");
+        part.setCar(car);
+        car.setParts(Arrays.asList(part));
 
         user2 = new User();
         user2.setId(2L);
         user2.setEmail("test2@test.com");
-
-        car = new Car();
-        car.setId(1L);
-        car.setBrand("testBrand");
-        car.setModel("testModel");
-        car.setUser(user);
+        user2.setRole(Role.USER);
 
         car2 = new Car();
         car2.setId(2L);
         car2.setBrand("testBrand2");
-        car2.setModel("testModel2");
         car2.setUser(user2);
+        user2.setCars(Arrays.asList(car2));
+
+        part2 = new Part();
+        part2.setId(2L);
+        part2.setName("testPart2");
+        part2.setCar(car);
+        car2.setParts(Arrays.asList(part2));
 
         carRequest = new CarRequest();
-        carRequest.setBrand("testBrand3");
-        carRequest.setModel("testModel3");
+        carRequest.setBrand("testBrandCarRequest1");
+        carRequest.setModel("testModelCarRequest1");
         carRequest.setOwnerId(1L);
-
-
     }
 
     @Test
@@ -76,62 +95,69 @@ class CarServiceImplTest {
         List<Car> cars = Arrays.asList(car, car2);
         when(carRepository.findAll()).thenReturn(cars);
 
-        List<CarResponse> serviceCars = carService.getAllCars();
+        List<CarResponse> output = carService.getAllCars();
 
         verify(carRepository, times(1)).findAll();
-        assertEquals(2, serviceCars.size());
+        assertEquals(2, output.size());
 
-        assertEquals("testBrand", serviceCars.get(0).getBrand());
-        assertEquals("testModel", serviceCars.get(0).getModel());
-        assertEquals(1L, serviceCars.get(0).getOwnerId());
+        assertEquals("testBrand1", output.get(0).getBrand());
+        assertEquals(1L, output.get(0).getOwnerId());
 
-        assertEquals("testBrand2", serviceCars.get(1).getBrand());
-        assertEquals("testModel2", serviceCars.get(1).getModel());
-        assertEquals(2L, serviceCars.get(1).getOwnerId());
+        assertEquals("testBrand2", output.get(1).getBrand());
+        assertEquals(2L, output.get(1).getOwnerId());
     }
 
     @Test
     void getCarById() {
         when(carRepository.findById(1L)).thenReturn(Optional.of(car));
-        CarResponse serviceCar = carService.getCarById(1L);
+
+        CarResponse output = carService.getCarById(1L);
 
         verify(carRepository, times(1)).findById(1L);
 
-        assertEquals(1L, serviceCar.getId());
-        assertEquals("testBrand", serviceCar.getBrand());
-        assertEquals("testModel", serviceCar.getModel());
-        assertEquals(1L, serviceCar.getOwnerId());
+        assertEquals(1L, output.getId());
+        assertEquals("testBrand1", output.getBrand());
+        assertEquals(1L, output.getOwnerId());
     }
 
-//    @Test
-//    void addNewCar() {
-//        when(carRepository.save(any(Car.class))).thenReturn(car);
-//        CarResponse serviceResponse = carService.addNewCar(carRequest);
-//
-//        verify(carRepository, times(1)).save(any(Car.class));
-//        assertEquals("testBrand3", serviceResponse.getBrand());
-//    }
+    @Test
+    void addNewCar() {
+        when(carRepository.save(any(Car.class))).thenReturn(car);
 
-//    @Test
-//    void updateCar() {
-//        when(carRepository.findById(1L)).thenReturn(Optional.of(car));
-//        when(carRepository.save(any(Car.class))).thenReturn(car);
-//
-//        CarResponse serviceCar = carService.updateCar(1L, carRequest);
-//
-//        verify(carRepository, times(1)).findById(1L);
-//        verify(carRepository, times(1)).save(any(Car.class));
-//
-//        assertEquals(1L, car.getId());
-//        assertEquals("testBrand3", car.getBrand());
-//        assertEquals("testModel3", car.getModel());
-////        assertEquals("test2@test.com", car.getUser().getUsername());
-//    }
+        CarResponse output = carService.addNewCar(carRequest);
+
+        verify(carRepository, times(1)).save(any(Car.class));
+
+        assertEquals("testBrandCarRequest1", output.getBrand());
+        assertEquals("testModelCarRequest1", output.getModel());
+        assertEquals(1L, output.getOwnerId());
+    }
+
+    @Test
+    void updateCar() {
+        when(carRepository.findById(1L)).thenReturn(Optional.of(car));
+        when(carRepository.save(any(Car.class))).thenReturn(car);
+
+        CarResponse output = carService.updateCar(1L, carRequest);
+
+        verify(carRepository, times(1)).findById(1L);
+        verify(carRepository, times(1)).save(any(Car.class));
+
+        assertEquals(1L, output.getId());
+        assertEquals("testBrandCarRequest1", output.getBrand());
+        assertEquals("testModelCarRequest1", output.getModel());
+//        assertEquals("test2@test.com", car.getUser().getUsername());
+    }
 
     @Test
     void deleteCar() {
-//        when(carRepository.findById(1L)).thenReturn(Optional.of(car));
-//        verify(carRepository, times(1)).deleteById(1L);
+        when(carRepository.findById(1L)).thenReturn(Optional.of(car));
+
+        String output = carService.deleteCar(1L);
+
+        verify(carRepository, times(1)).deleteById(1L);
+
+        assertEquals("Car 1 was deleted", output);
     }
 
 //    @Test
@@ -139,14 +165,13 @@ class CarServiceImplTest {
 //        List<Car> cars = Arrays.asList(car);
 //        when(carRepository.findCarsByUserId(1L)).thenReturn(cars);
 //
-//        List<CarResponse> serviceCars = carService.getCarsByLoggedUsername(user.getUsername());
-//
+//        List<CarResponse> output = carService.getCarsByLoggedUsername(user.getUsername());
+
 //        verify(carRepository, times(1)).findCarsByUserId(1L);
 //        assertEquals(1, serviceCars.size());
 //
 //        assertEquals("testBrand", serviceCars.get(0).getBrand());
 //        assertEquals("testModel", serviceCars.get(0).getModel());
 //        assertEquals(1L, serviceCars.get(0).getOwnerId());
-//
-//    }
+    //}
 }
