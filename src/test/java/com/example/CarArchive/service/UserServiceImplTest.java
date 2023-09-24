@@ -50,6 +50,8 @@ class UserServiceImplTest {
         user = new User();
         user.setId(1L);
         user.setEmail("test1@test.com");
+        user.setFirstname("testFirstname");
+        user.setLastname("testLastname");
         user.setRole(Role.USER);
 
         car = new Car();
@@ -150,7 +152,6 @@ class UserServiceImplTest {
 //        assertEquals("test@test.com", userService.addNewUser(userRequest).getEmail());
     // }
 
-
     @Test
     void updateUser() {
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
@@ -167,7 +168,6 @@ class UserServiceImplTest {
         assertEquals("test@test.com", output.getEmail());
     }
 
-
     @Test
     void deleteUser() {
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
@@ -178,15 +178,17 @@ class UserServiceImplTest {
 
         assertEquals("User 1 was deleted", output);
     }
-//
-//    @Test
-//    void getUserByUsername() {
-//        when(userRepository.findByEmail("test@test.com")).thenReturn(Optional.of(user));
-//
-//        assertEquals(1L, userService.getUserByUsername("test@test.com").getId());
-//        assertEquals("testFirstname", userService.getUserByUsername("test@test.com").getFirstname());
-//        assertEquals("testLastname", userService.getUserByUsername("test@test.com").getLastname());
-//
-//    }
 
+    @Test
+    void getUserByUsername() {
+        when(userRepository.findByEmail("test1@test.com")).thenReturn(Optional.of(user));
+
+        User output = userService.getUserByUsername("test1@test.com");
+
+        verify(userRepository, times(1)).findByEmail("test1@test.com");
+
+        assertEquals(1L, output.getId());
+        assertEquals("testFirstname", output.getFirstname());
+        assertEquals("testLastname", output.getLastname());
+    }
 }
