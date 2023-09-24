@@ -2,6 +2,7 @@ package com.example.CarArchive.service;
 
 import com.example.CarArchive.dto.CarRequest;
 import com.example.CarArchive.dto.CarResponse;
+import com.example.CarArchive.exception.CarDeleteException;
 import com.example.CarArchive.exception.CarNotFoundException;
 import com.example.CarArchive.exception.CarSaveException;
 import com.example.CarArchive.mapper.CarMapper;
@@ -56,36 +57,38 @@ public class CarServiceImpl implements CarService {
         }
         return new CarResponse(car.getId(), car.getBrand(), car.getModel(), car.getUser().getId());
     }
-//
-//    @Override
-//    public CarResponse updateCar(Long id, CarRequest carRequest) {
-//        Optional<Car> optionalCar = carRepository.findById(id);
-//        //if(optionalCar.isPresent()){
-//        Car carToUpdate = optionalCar.orElseThrow(() -> new CarNotFoundException("Car does not exist"));
-//        carToUpdate.setBrand(carRequest.getBrand());
-//        carToUpdate.setModel(carRequest.getModel());
-//        //carToUpdate.setUser(carRequest.getOwnerId());
-//
-//        try {
-//            carRepository.save(carToUpdate);
-//        } catch (Exception e) {
-//            throw new CarSaveException("Car cannot be saved");
+
+    @Override
+    public CarResponse updateCar(Long id, CarRequest carRequest) {
+        Optional<Car> optionalCar = carRepository.findById(id);
+        //if(optionalCar.isPresent()){
+        Car carToUpdate = optionalCar.orElseThrow(() -> new CarNotFoundException("Car does not exist"));
+        carToUpdate.setBrand(carRequest.getBrand());
+        carToUpdate.setModel(carRequest.getModel());
+        //carToUpdate.setUser(carRequest.getOwnerId());
+
+        try {
+            carRepository.save(carToUpdate);
+        } catch (Exception e) {
+            throw new CarSaveException("Car cannot be saved");
+        }
+
+        return new CarResponse(carToUpdate.getId(), carToUpdate.getBrand(), carToUpdate.getModel(), carToUpdate.getUser().getId());
+        // }
+//        else{
+//          throw new CarNotFoundException("Car not exist");
 //        }
-//
-//        return new CarResponse(carToUpdate.getId(), carToUpdate.getBrand(), carToUpdate.getModel(), carToUpdate.getUser().getId(), carToUpdate.getParts());
-//        // }
-////        else{
-////          throw new CarNotFoundException("Car not exist");
-////        }
-//    }
+    }
 
 
     @Override
     public String deleteCar(Long id) {
+        Car car = carRepository.findById(id).orElseThrow(() -> new CarNotFoundException("Car does not exist"));
+
         try {
             carRepository.deleteById(id);
         } catch (Exception e) {
-            throw new CarSaveException("Car cannot be removed");
+            throw new CarDeleteException("Car cannot be removed");
         }
 
         return "Car " + id + " was deleted";
