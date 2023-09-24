@@ -79,7 +79,7 @@ class UserServiceImplTest {
         part2 = new Part();
         part2.setId(2L);
         part2.setName("testPart2");
-        part2.setCar(car);
+        part2.setCar(car2);
         car2.setParts(Arrays.asList(part2));
 
         userRequest = new UserRequest();
