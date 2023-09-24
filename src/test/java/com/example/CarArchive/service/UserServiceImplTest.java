@@ -17,6 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -39,14 +40,14 @@ class UserServiceImplTest {
     private Car car2;
     private Part part;
     private Part part2;
-
-    //  private UserRequest userRequest;
+    private UserRequest userRequest;
 
     @BeforeEach
     void setup() {
         user = new User();
         user.setId(1L);
         user.setEmail("test1@test.com");
+        user.setRole(Role.USER);
 
         car = new Car();
         car.setId(1L);
@@ -63,6 +64,7 @@ class UserServiceImplTest {
         user2 = new User();
         user2.setId(2L);
         user2.setEmail("test2@test.com");
+        user2.setRole(Role.USER);
 
         car2 = new Car();
         car2.setId(2L);
@@ -76,21 +78,10 @@ class UserServiceImplTest {
         part2.setCar(car);
         car2.setParts(Arrays.asList(part2));
 
-
-//        user = new User();
-//        user.setId(1L);
-//        user.setFirstname("testFirstname");
-//        user.setLastname("testLastname");
-//        user.setEmail("test@test.com");
-//
-//        user2 = new User();
-//        user2.setId(2L);
-//        user2.setEmail("test2@test.com");
-//
-//        userRequest = new UserRequest();
-//        userRequest.setFirstname("testFirstname");
-//        userRequest.setLastname("testLastname");
-//        userRequest.setEmail("test@test.com");
+        userRequest = new UserRequest();
+        userRequest.setFirstname("testFirstname");
+        userRequest.setLastname("testLastname");
+        userRequest.setEmail("test@test.com");
     }
 
     @Test
@@ -134,38 +125,37 @@ class UserServiceImplTest {
         assertEquals("testPart1", output.getCars().get(0).getParts().get(0).getName());
     }
 
-    @Test
-    void getUserByIdWhenUserDoesNotExist() {
-        when(userRepository.findById(3L)).thenReturn(Optional.empty());
-
-        //assertNull(userService.getUserById(3L));
-    }
-
 //    @Test
 //    void addNewUser() {
 //        when(userRepository.save(any())).thenReturn(user);
 //
-//        //verify(userRepository, times(1)).save(any(User.class));
-//
+//        UserResponse output = userService.addNewUser(userRequest);
+
+    //    verify(userRepository, times(1)).save(any(User.class));
+
 //        assertEquals("testFirstname", userService.addNewUser(userRequest).getFirstname());
 //        assertEquals("testLastname", userService.addNewUser(userRequest).getLastname());
 //        assertEquals("test@test.com", userService.addNewUser(userRequest).getEmail());
-//    }
-//
-//    @Test
-//    void updateUser() {
-//        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
-//        when(userRepository.save(any())).thenReturn(user);
-//
-////        verify(userRepository, times(1)).findById(1L);
-////        verify(userRepository, times(1)).save(any());
-//        assertEquals(1L, userService.updateUser(1L, userRequest).getId());
-//        assertEquals("testFirstname", userService.updateUser(1L, userRequest).getFirstname());
-//        assertEquals("testLastname", userService.updateUser(1L, userRequest).getLastname());
-//        assertEquals("test@test.com", userService.updateUser(1L, userRequest).getEmail());
-//
-//    }
-//
+    // }
+
+
+    @Test
+    void updateUser() {
+        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+        when(userRepository.save(any())).thenReturn(user);
+
+        UserResponse output = userService.updateUser(1L, userRequest);
+
+//        verify(userRepository, times(1)).findById(1L);
+//        verify(userRepository, times(1)).save(any());
+
+        assertEquals(1L, output.getId());
+        assertEquals("testFirstname", output.getFirstname());
+        assertEquals("testLastname", output.getLastname());
+        assertEquals("test@test.com", output.getEmail());
+    }
+
+    //
 //    @Test
 //    void deleteUser() {
 //        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
@@ -181,4 +171,10 @@ class UserServiceImplTest {
 //        assertEquals("testLastname", userService.getUserByUsername("test@test.com").getLastname());
 //
 //    }
+    @Test
+    void getUserByIdWhenUserDoesNotExist() {
+        when(userRepository.findById(3L)).thenReturn(Optional.empty());
+
+        //assertNull(userService.getUserById(3L));
+    }
 }
