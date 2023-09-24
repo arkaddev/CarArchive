@@ -32,6 +32,14 @@ public class UserMapperImpl implements UserMapper {
 
     @Override
     public User userRequestToUser(UserRequest userRequest) {
-        return null;
+
+        User user = new User();
+
+        user.setFirstname(userRequest.getFirstname());
+        user.setLastname(userRequest.getLastname());
+        user.setEmail(userRequest.getEmail());
+        user.setPassword(userRequest.getPassword());
+
+        return user;
     }
 }

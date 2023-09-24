@@ -139,18 +139,18 @@ class UserServiceImplTest {
 //        assertNull(output);
 //    }
 
-//    @Test
-//    void addNewUser() {
-//        when(userRepository.save(any())).thenReturn(user);
-//
-//        UserResponse output = userService.addNewUser(userRequest);
+    @Test
+    void addNewUser() {
+        when(userRepository.save(any())).thenReturn(user);
 
-    //    verify(userRepository, times(1)).save(any(User.class));
+        UserResponse output = userService.addNewUser(userRequest);
 
-//        assertEquals("testFirstname", userService.addNewUser(userRequest).getFirstname());
-//        assertEquals("testLastname", userService.addNewUser(userRequest).getLastname());
-//        assertEquals("test@test.com", userService.addNewUser(userRequest).getEmail());
-    // }
+        verify(userRepository, times(1)).save(any(User.class));
+
+        assertEquals("testFirstname", userService.addNewUser(userRequest).getFirstname());
+        assertEquals("testLastname", userService.addNewUser(userRequest).getLastname());
+        assertEquals("test@test.com", userService.addNewUser(userRequest).getEmail());
+     }
 
     @Test
     void updateUser() {
