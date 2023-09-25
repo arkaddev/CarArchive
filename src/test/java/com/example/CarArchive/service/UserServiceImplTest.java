@@ -129,14 +129,16 @@ class UserServiceImplTest {
         assertEquals("testPart1", output.getCars().get(0).getParts().get(0).getName());
     }
 
-//    @Test
-//    void getUserByIdWhenUserDoesNotExist() {
-//        when(userRepository.findById(3L)).thenReturn(Optional.empty());
-//
-//
-//        UserResponse output = userService.getUserById(3L);
-//        assertNull(output);
-//    }
+    @Test
+    void getUserByIdWhenUserDoesNotExist() {
+        when(userRepository.findById(3L)).thenReturn(Optional.empty());
+
+        try {
+            UserResponse output = userService.getUserById(3L);
+        } catch (UserNotFoundException e) {
+            assertEquals("User does not exist", e.getMessage());
+        }
+    }
 
     @Test
     void addNewUser() {
@@ -149,7 +151,7 @@ class UserServiceImplTest {
         assertEquals("testFirstnameUserRequest1", userService.addNewUser(userRequest).getFirstname());
         assertEquals("testLastnameUserRequest1", userService.addNewUser(userRequest).getLastname());
         assertEquals("testUserRequest1@test.com", userService.addNewUser(userRequest).getEmail());
-     }
+    }
 
     @Test
     void updateUser() {
