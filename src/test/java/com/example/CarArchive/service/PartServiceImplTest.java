@@ -1,18 +1,15 @@
 package com.example.CarArchive.service;
 
 import com.example.CarArchive.dto.CarResponse;
+import com.example.CarArchive.dto.PartRequest;
 import com.example.CarArchive.dto.PartResponse;
-import com.example.CarArchive.mapper.PartMapper;
 import com.example.CarArchive.model.Car;
 import com.example.CarArchive.model.Part;
 import com.example.CarArchive.model.Role;
 import com.example.CarArchive.model.User;
-import com.example.CarArchive.repository.CarRepository;
 import com.example.CarArchive.repository.PartRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -39,9 +36,7 @@ class PartServiceImplTest {
     private Car car2;
     private Part part;
     private Part part2;
-
-    private PartResponse partResponse;
-    private PartResponse partResponse2;
+    private PartRequest partRequest;
 
 
     @BeforeEach
@@ -80,6 +75,11 @@ class PartServiceImplTest {
         part2.setName("testPart2");
         part2.setCar(car2);
         car2.setParts(Arrays.asList(part2));
+
+        partRequest = new PartRequest();
+        partRequest.setName("testNamePartRequest1");
+        partRequest.setCarId(5L);
+        partRequest.setUserId(10L);
     }
 
     @Test
@@ -119,14 +119,41 @@ class PartServiceImplTest {
 
     @Test
     void addNewPart() {
+        when(partRepository.save(any(Part.class))).thenReturn(part);
+
+        PartResponse output = partService.addNewPart(partRequest);
+
+        verify(partRepository, times(1)).save(any(Part.class));
+
+        assertEquals("testNamePartRequest1", output.getName());
+        assertEquals(5L, output.getCarId());
+        assertEquals(10L, output.getUserId());
     }
 
     @Test
     void updatePart() {
+        when(partRepository.findById(1L)).thenReturn(Optional.of(part));
+        when(partRepository.save(any(Part.class))).thenReturn(part);
+
+        PartResponse output = partService.updatePart(1L, partRequest);
+
+        verify(partRepository, times(1)).findById(1L);
+        verify(partRepository, times(1)).save(any(Part.class));
+
+        assertEquals("testNamePartRequest1", output.getName());
+        assertEquals(5L, output.getCarId());
+        assertEquals(10L, output.getUserId());
     }
 
     @Test
     void deletePart() {
+        when(partRepository.findById(1L)).thenReturn(Optional.of(part));
+
+        String output = partService.deletePart(1L);
+
+        verify(partRepository, times(1)).deleteById(1L);
+
+        assertEquals("Part 1 was deleted", output);
     }
 
     @Test
