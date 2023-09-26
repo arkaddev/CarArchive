@@ -9,6 +9,7 @@ import com.example.CarArchive.model.User;
 import com.example.CarArchive.repository.UserRepository;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,11 +21,13 @@ public class UserServiceImpl implements UserService {
 
     public final UserRepository userRepository;
     public final UserMapper userMapper;
+    public final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper) {
+    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -44,6 +47,7 @@ public class UserServiceImpl implements UserService {
     public UserResponse addNewUser(UserRequest userRequest) {
         User user = userMapper.userRequestToUser(userRequest);
         user.setRole(Role.USER);
+        user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
         try {
             userRepository.save(user);
         } catch (Exception e) {
@@ -60,7 +64,7 @@ public class UserServiceImpl implements UserService {
         user.setFirstname(userRequest.getFirstname());
         user.setLastname(userRequest.getLastname());
         user.setEmail(userRequest.getEmail());
-        user.setPassword(userRequest.getPassword());
+        user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
         try {
             userRepository.save(user);
         } catch (Exception e) {
