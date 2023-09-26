@@ -29,8 +29,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/users").permitAll()
-
-                        .requestMatchers("/cars/**", "/parts/**").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/users","/cars","/parts").hasAuthority("ADMIN")
                         .anyRequest().authenticated())
 
                 .httpBasic(Customizer.withDefaults())
