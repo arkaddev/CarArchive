@@ -2,28 +2,22 @@ package com.example.CarArchive.service;
 
 import com.example.CarArchive.dto.CarRequest;
 import com.example.CarArchive.dto.CarResponse;
-import com.example.CarArchive.dto.UserRequest;
+import com.example.CarArchive.exception.CarNotFoundException;
 import com.example.CarArchive.model.Car;
 import com.example.CarArchive.model.Part;
 import com.example.CarArchive.model.Role;
 import com.example.CarArchive.model.User;
 import com.example.CarArchive.repository.CarRepository;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.as;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -121,6 +115,17 @@ class CarServiceImplTest {
     }
 
     @Test
+    void getCarByIdWhenCarDoesNotExist() {
+        when(carRepository.findById(3L)).thenReturn(Optional.empty());
+
+        try {
+            CarResponse output = carService.getCarById(3L);
+        } catch (CarNotFoundException e) {
+            assertEquals("Car does not exist", e.getMessage());
+        }
+    }
+
+    @Test
     void addNewCar() {
         when(carRepository.save(any(Car.class))).thenReturn(car);
 
@@ -164,7 +169,6 @@ class CarServiceImplTest {
 //    void getCarsByLoggedUsername() {
 //        List<Car> cars = Arrays.asList(car);
 //        when(carRepository.findCarsByUserId(1L)).thenReturn(cars);
-//
 //        List<CarResponse> output = carService.getCarsByLoggedUsername(user.getUsername());
 
 //        verify(carRepository, times(1)).findCarsByUserId(1L);
@@ -173,5 +177,5 @@ class CarServiceImplTest {
 //        assertEquals("testBrand", serviceCars.get(0).getBrand());
 //        assertEquals("testModel", serviceCars.get(0).getModel());
 //        assertEquals(1L, serviceCars.get(0).getOwnerId());
-    //}
+//    }
 }
