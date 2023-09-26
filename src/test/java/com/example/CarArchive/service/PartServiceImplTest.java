@@ -31,7 +31,6 @@ class PartServiceImplTest {
 
     @MockBean
     private PartRepository partRepository;
-
     private User user;
     private User user2;
     private Car car;
