@@ -3,6 +3,8 @@ package com.example.CarArchive.service;
 import com.example.CarArchive.dto.CarResponse;
 import com.example.CarArchive.dto.PartRequest;
 import com.example.CarArchive.dto.PartResponse;
+import com.example.CarArchive.exception.CarNotFoundException;
+import com.example.CarArchive.exception.PartNotFoundException;
 import com.example.CarArchive.model.Car;
 import com.example.CarArchive.model.Part;
 import com.example.CarArchive.model.Role;
@@ -115,6 +117,17 @@ class PartServiceImplTest {
         assertEquals("testPart1", output.getName());
         assertEquals(1L, output.getCarId());
         assertEquals(1L, output.getUserId());
+    }
+
+    @Test
+    void getPartByIdWhenPartDoesNotExist() {
+        when(partRepository.findById(3L)).thenReturn(Optional.empty());
+
+        try {
+            PartResponse output = partService.getPartById(3L);
+        } catch (PartNotFoundException e) {
+            assertEquals("Part does not exist", e.getMessage());
+        }
     }
 
     @Test
