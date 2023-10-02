@@ -1,5 +1,6 @@
 package com.example.CarArchive.controller;
 
+import com.example.CarArchive.config.AuthenticationService;
 import com.example.CarArchive.dto.PartRequest;
 import com.example.CarArchive.dto.PartResponse;
 import com.example.CarArchive.model.Car;
@@ -17,19 +18,27 @@ import java.util.List;
 @RestController
 //@RequestMapping("/parts")
 public class PartController {
-    PartService partService;
+    private final PartService partService;
+    private final AuthenticationService authenticationService;
 
     @Autowired
-    public PartController(PartService partService) {
+    public PartController(PartService partService, AuthenticationService authenticationService) {
         this.partService = partService;
+        this.authenticationService = authenticationService;
     }
-
 
     @Operation(summary = "get all parts", description = "")
     @GetMapping("/parts")
     public ResponseEntity<List<PartResponse>> getAllParts() {
         return ResponseEntity.ok(partService.getAllParts());
     }
+
+    @Operation(summary = "get all parts for specific user", description = "")
+    @GetMapping("/parts/user")
+    public ResponseEntity<List<PartResponse>> getAllPartsForSpecificUser() {
+        return ResponseEntity.ok(partService.getAllPartsForSpecificUser(getLoggedUser()));
+    }
+
 
     @Operation(summary = "get part by id", description = "")
     @GetMapping("/parts/{id}")
@@ -61,4 +70,7 @@ public class PartController {
         return ResponseEntity.ok(partService.getPartsToExchangeByMileage(km, carId));
     }
 
+    public String getLoggedUser() {
+        return authenticationService.getInfoAboutUser();
+    }
 }

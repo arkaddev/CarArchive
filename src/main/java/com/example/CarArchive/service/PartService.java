@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface PartService {
     List<PartResponse> getAllParts();
+    List<PartResponse> getAllPartsForSpecificUser(String loggedUsername);
     PartResponse getPartById(Long id);
     PartResponse addNewPart(PartRequest partRequest);
     PartResponse updatePart(Long id, PartRequest partRequest);
