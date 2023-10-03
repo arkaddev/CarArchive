@@ -26,8 +26,12 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/users").permitAll()
-                        .requestMatchers(HttpMethod.GET,"/users","/cars","/parts").hasAuthority("ADMIN"))
-                        //.anyRequest().authenticated())
+                        .requestMatchers(HttpMethod.GET, "/users", "/users/{id}").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/users/{id}").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/users/{id}").hasAuthority("ADMIN")
+
+                        .requestMatchers(HttpMethod.GET, "/users", "/cars", "/parts").hasAuthority("ADMIN"))
+                //.anyRequest().authenticated())
 
                 .httpBasic(Customizer.withDefaults())
                 //.logout(logout -> logout.logoutUrl("/logout"))
