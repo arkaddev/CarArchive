@@ -25,12 +25,18 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**").permitAll()
+
                         .requestMatchers(HttpMethod.POST, "/users").permitAll()
                         .requestMatchers(HttpMethod.GET, "/users", "/users/{id}").hasAuthority("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/users/{id}").hasAuthority("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/users/{id}").hasAuthority("ADMIN")
 
-                        .requestMatchers(HttpMethod.GET, "/users", "/cars", "/parts").hasAuthority("ADMIN"))
+                        .requestMatchers(HttpMethod.POST, "/cars").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/cars", "/cars/{id}").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/cars/{id}").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/cars/{id}").hasAuthority("ADMIN"))
+
+
                 //.anyRequest().authenticated())
 
                 .httpBasic(Customizer.withDefaults())

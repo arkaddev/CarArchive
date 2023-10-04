@@ -57,9 +57,9 @@ public class CarController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(carService.deleteCar(id));
     }
 
-    @Operation(summary = "get car by logged user", description = "")
+    @Operation(summary = "get cars by logged user", description = "")
     @GetMapping("/cars/user/")
-    public ResponseEntity<List<CarResponse>> getCarByLoggedUser() {
+    public ResponseEntity<List<CarResponse>> getCarsByLoggedUser() {
         return ResponseEntity.ok(carService.getCarsByLoggedUsername(getLoggedUser()));
     }
 
