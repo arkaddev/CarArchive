@@ -95,13 +95,19 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public List<CarResponse> getCarsByLoggedUsername(String loggedUsername) {
+    public List<CarResponse> getAllCarsByLoggedUsername(String loggedUsername) {
         User user = userService.getUserByUsername(loggedUsername);
         Long userId = user.getId();
 
         return carRepository.findCarsByUserId(userId).stream()
                 .map(carMapper::carToCarResponse)
                 .toList();
+    }
+
+    @Override
+    public CarResponse getCarByIdByLoggedUsername(Long id, String loggedUsername) {
+        Optional<CarResponse> optionalCar = carRepository.findById(id).map(carMapper::carToCarResponse);
+        return optionalCar.orElseThrow(() -> new CarNotFoundException("Car does not exist"));
     }
 }
 

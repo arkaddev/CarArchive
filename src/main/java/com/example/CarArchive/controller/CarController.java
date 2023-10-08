@@ -34,7 +34,7 @@ public class CarController {
     }
 
     @Operation(summary = "get car by id", description = "")
-    @GetMapping("/car/{id}")
+    @GetMapping("/cars/{id}")
     public ResponseEntity<CarResponse> getCarById(@PathVariable Long id) {
         return ResponseEntity.ok(carService.getCarById(id));
     }
@@ -52,7 +52,7 @@ public class CarController {
     }
 
     @Operation(summary = "delete car by id", description = "")
-    @DeleteMapping("/car/{id}")
+    @DeleteMapping("/cars/{id}")
     public ResponseEntity<String> deleteCar(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(carService.deleteCar(id));
     }
@@ -60,7 +60,13 @@ public class CarController {
     @Operation(summary = "get cars by logged user", description = "")
     @GetMapping("/cars/user/")
     public ResponseEntity<List<CarResponse>> getCarsByLoggedUser() {
-        return ResponseEntity.ok(carService.getCarsByLoggedUsername(getLoggedUser()));
+        return ResponseEntity.ok(carService.getAllCarsByLoggedUsername(getLoggedUser()));
+    }
+
+    @Operation(summary = "get car by id by logged user", description = "")
+    @GetMapping("/cars/user/{id}")
+    public ResponseEntity<CarResponse> getCarByIdByLoggedUser(@PathVariable Long id) {
+        return ResponseEntity.ok(carService.getCarByIdByLoggedUsername(id, getLoggedUser()));
     }
 
     public String getLoggedUser() {
