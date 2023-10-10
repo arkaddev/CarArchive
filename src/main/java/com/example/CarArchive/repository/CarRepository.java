@@ -1,5 +1,6 @@
 package com.example.CarArchive.repository;
 
+import com.example.CarArchive.dto.CarResponse;
 import com.example.CarArchive.model.Car;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
