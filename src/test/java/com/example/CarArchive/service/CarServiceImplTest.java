@@ -165,6 +165,19 @@ class CarServiceImplTest {
         assertEquals("Car 1 was deleted", output);
     }
 
+    @Test
+    void getCarByIdByLoggedUsername() {
+        when(carRepository.findById(1L)).thenReturn(Optional.of(car));
+
+        CarResponse output = carService.getCarById(1L);
+
+        verify(carRepository, times(1)).findById(1L);
+
+        assertEquals(1L, output.getId());
+        assertEquals("testBrand1", output.getBrand());
+        assertEquals(1L, output.getOwnerId());
+    }
+
 //    @Test
 //    void getCarsByLoggedUsername() {
 //        List<Car> cars = Arrays.asList(car);

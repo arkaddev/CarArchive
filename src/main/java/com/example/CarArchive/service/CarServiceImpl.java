@@ -112,15 +112,11 @@ public class CarServiceImpl implements CarService {
         CarResponse carResponse = carRepository.findById(id).map(carMapper::carToCarResponse).orElseThrow(() -> new CarNotFoundException("Car does not exist"));
         Long ownerId = carResponse.getOwnerId();
 
-        System.out.println(userId);
-        System.out.println(ownerId);
-
         if (userId == ownerId) {
             Optional<CarResponse> optionalCar = carRepository.findById(id).map(carMapper::carToCarResponse);
             return optionalCar.orElseThrow(() -> new CarNotFoundException("Car does not exist"));
         }
         return null;
-
     }
 }
 
