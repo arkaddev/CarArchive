@@ -194,17 +194,17 @@ class CarServiceImplTest {
             assertEquals("Car does not exist", e.getMessage());
         }
     }
-//    @Test
-//    void getCarsByLoggedUsername() {
-//        List<Car> cars = Arrays.asList(car);
-//        when(carRepository.findCarsByUserId(1L)).thenReturn(cars);
-//        List<CarResponse> output = carService.getCarsByLoggedUsername(user.getUsername());
+    @Test
+    void getCarsByLoggedUsername() {
+        List<Car> cars = Arrays.asList(car);
+        when(carRepository.findCarsByUserId(1L)).thenReturn(cars);
+        when(userRepository.findByEmail("test1@test.com")).thenReturn(Optional.of(user));
 
-//        verify(carRepository, times(1)).findCarsByUserId(1L);
-//        assertEquals(1, serviceCars.size());
-//
-//        assertEquals("testBrand", serviceCars.get(0).getBrand());
-//        assertEquals("testModel", serviceCars.get(0).getModel());
-//        assertEquals(1L, serviceCars.get(0).getOwnerId());
-//    }
+        List<CarResponse> output = carService.getAllCarsByLoggedUsername("test1@test.com");
+        verify(carRepository, times(1)).findCarsByUserId(1L);
+        assertEquals(1, output.size());
+
+        assertEquals("testBrand1", output.get(0).getBrand());
+        assertEquals(1L, output.get(0).getOwnerId());
+    }
 }
