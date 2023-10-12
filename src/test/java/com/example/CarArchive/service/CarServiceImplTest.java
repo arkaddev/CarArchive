@@ -169,7 +169,7 @@ class CarServiceImplTest {
     void getCarByIdByLoggedUsername() {
         when(carRepository.findById(1L)).thenReturn(Optional.of(car));
 
-        CarResponse output = carService.getCarById(1L);
+        CarResponse output = carService.getCarByIdByLoggedUsername(1L, "test1@test.com");
 
         verify(carRepository, times(1)).findById(1L);
 
