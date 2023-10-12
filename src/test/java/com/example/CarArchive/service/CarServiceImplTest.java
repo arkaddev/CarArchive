@@ -178,6 +178,16 @@ class CarServiceImplTest {
         assertEquals(1L, output.getOwnerId());
     }
 
+    @Test
+    void getCarByIdByLoggedUsernameWhenCarDoesNotExist() {
+        when(carRepository.findById(3L)).thenReturn(Optional.empty());
+
+        try {
+            CarResponse output = carService.getCarByIdByLoggedUsername(1L, "test1@test.com");
+        } catch (CarNotFoundException e) {
+            assertEquals("Car does not exist", e.getMessage());
+        }
+    }
 //    @Test
 //    void getCarsByLoggedUsername() {
 //        List<Car> cars = Arrays.asList(car);
