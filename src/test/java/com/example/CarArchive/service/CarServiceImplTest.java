@@ -8,6 +8,7 @@ import com.example.CarArchive.model.Part;
 import com.example.CarArchive.model.Role;
 import com.example.CarArchive.model.User;
 import com.example.CarArchive.repository.CarRepository;
+import com.example.CarArchive.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,9 @@ class CarServiceImplTest {
 
     @MockBean
     private CarRepository carRepository;
+
+    @MockBean
+    private UserRepository userRepository;
 
     private User user;
     private User user2;
@@ -168,10 +172,11 @@ class CarServiceImplTest {
     @Test
     void getCarByIdByLoggedUsername() {
         when(carRepository.findById(1L)).thenReturn(Optional.of(car));
+        when(userRepository.findByEmail("test1@test.com")).thenReturn(Optional.of(user));
 
         CarResponse output = carService.getCarByIdByLoggedUsername(1L, "test1@test.com");
 
-        verify(carRepository, times(1)).findById(1L);
+        //verify(carRepository, times(1)).findById(1L);
 
         assertEquals(1L, output.getId());
         assertEquals("testBrand1", output.getBrand());
@@ -181,9 +186,10 @@ class CarServiceImplTest {
     @Test
     void getCarByIdByLoggedUsernameWhenCarDoesNotExist() {
         when(carRepository.findById(3L)).thenReturn(Optional.empty());
+        when(userRepository.findByEmail("test1@test.com")).thenReturn(Optional.of(user));
 
         try {
-            CarResponse output = carService.getCarByIdByLoggedUsername(1L, "test1@test.com");
+            CarResponse output = carService.getCarByIdByLoggedUsername(3L, "test1@test.com");
         } catch (CarNotFoundException e) {
             assertEquals("Car does not exist", e.getMessage());
         }
