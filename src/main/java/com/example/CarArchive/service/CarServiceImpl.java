@@ -118,6 +118,21 @@ public class CarServiceImpl implements CarService {
         }
         return null;
     }
+
+    @Override
+    public CarResponse addNewCarByLoggedUsername(CarRequest carRequest, String loggedUsername) {
+        User user = userService.getUserByUsername(loggedUsername);
+        Long userId = user.getId();
+        carRequest.setOwnerId(userId);
+
+        Car car = carMapper.carRequestToCar(carRequest);
+        try {
+            carRepository.save(car);
+        } catch (Exception e) {
+            throw new CarSaveException("Car cannot be saved");
+        }
+        return new CarResponse(car.getId(), car.getBrand(), car.getModel(), car.getUser().getId());
+    }
 }
 
 

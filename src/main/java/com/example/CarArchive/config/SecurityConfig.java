@@ -36,6 +36,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/cars/{id}").hasAuthority("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/cars/{id}").hasAuthority("ADMIN")
 
+                        .requestMatchers(HttpMethod.POST, "/cars/user").hasAuthority("USER")
                         .requestMatchers(HttpMethod.GET, "/cars/user", "/cars/user/{id}").hasAuthority("USER"))
 
 

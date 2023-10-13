@@ -69,6 +69,11 @@ public class CarController {
         return ResponseEntity.ok(carService.getCarByIdByLoggedUsername(id, getLoggedUser()));
     }
 
+    @Operation(summary = "add new car by logged user", description = "")
+    @PostMapping("/cars/user")
+    public ResponseEntity<CarResponse> addNewCarByLoggedUser(@RequestBody CarRequest carRequest) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(carService.addNewCarByLoggedUsername(carRequest, getLoggedUser()));
+    }
     public String getLoggedUser() {
         return authenticationService.getInfoAboutUser();
     }

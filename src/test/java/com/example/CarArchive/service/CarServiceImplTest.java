@@ -207,4 +207,18 @@ class CarServiceImplTest {
         assertEquals("testBrand1", output.get(0).getBrand());
         assertEquals(1L, output.get(0).getOwnerId());
     }
+
+    @Test
+    void addNewCarByLoggedUsername() {
+        when(carRepository.save(any(Car.class))).thenReturn(car);
+        when(userRepository.findByEmail("test1@test.com")).thenReturn(Optional.of(user));
+
+        CarResponse output = carService.addNewCarByLoggedUsername(carRequest,"test1@test.com" );
+
+        verify(carRepository, times(1)).save(any(Car.class));
+
+        assertEquals("testBrandCarRequest1", output.getBrand());
+        assertEquals("testModelCarRequest1", output.getModel());
+        assertEquals(1L, output.getOwnerId());
+    }
 }
