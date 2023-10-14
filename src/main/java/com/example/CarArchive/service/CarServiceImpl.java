@@ -116,7 +116,8 @@ public class CarServiceImpl implements CarService {
             Optional<CarResponse> optionalCar = carRepository.findById(id).map(carMapper::carToCarResponse);
             return optionalCar.orElseThrow(() -> new CarNotFoundException("Car does not exist"));
         }
-        return null;
+
+        throw new CarNotFoundException("You do not have permissions");
     }
 
     @Override
@@ -132,6 +133,32 @@ public class CarServiceImpl implements CarService {
             throw new CarSaveException("Car cannot be saved");
         }
         return new CarResponse(car.getId(), car.getBrand(), car.getModel(), car.getUser().getId());
+    }
+
+    @Override
+    public CarResponse updateCarByLoggedUsername(Long id, CarRequest carRequest, String loggedUsername) {
+        User user = userService.getUserByUsername(loggedUsername);
+        Long userId = user.getId();
+
+        CarResponse carResponse = carRepository.findById(id).map(carMapper::carToCarResponse).orElseThrow(() -> new CarNotFoundException("Car does not exist"));
+        Long ownerId = carResponse.getOwnerId();
+
+        if (userId == ownerId) {
+            Optional<Car> optionalCar = carRepository.findById(id);
+            Car carToUpdate = optionalCar.orElseThrow(() -> new CarNotFoundException("Car does not exist"));
+            carToUpdate.setBrand(carRequest.getBrand());
+            carToUpdate.setModel(carRequest.getModel());
+
+            try {
+                carRepository.save(carToUpdate);
+            } catch (Exception e) {
+                throw new CarSaveException("Car cannot be saved");
+            }
+
+            return new CarResponse(carToUpdate.getId(), carToUpdate.getBrand(), carToUpdate.getModel(), carToUpdate.getUser().getId());
+        }
+
+        throw new CarNotFoundException("You do not have permissions");
     }
 }
 

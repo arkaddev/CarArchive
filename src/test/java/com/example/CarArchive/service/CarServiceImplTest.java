@@ -170,6 +170,20 @@ class CarServiceImplTest {
     }
 
     @Test
+    void getCarsByLoggedUsername() {
+        List<Car> cars = Arrays.asList(car);
+        when(carRepository.findCarsByUserId(1L)).thenReturn(cars);
+        when(userRepository.findByEmail("test1@test.com")).thenReturn(Optional.of(user));
+
+        List<CarResponse> output = carService.getAllCarsByLoggedUsername("test1@test.com");
+        verify(carRepository, times(1)).findCarsByUserId(1L);
+        assertEquals(1, output.size());
+
+        assertEquals("testBrand1", output.get(0).getBrand());
+        assertEquals(1L, output.get(0).getOwnerId());
+    }
+
+    @Test
     void getCarByIdByLoggedUsername() {
         when(carRepository.findById(1L)).thenReturn(Optional.of(car));
         when(userRepository.findByEmail("test1@test.com")).thenReturn(Optional.of(user));
@@ -194,19 +208,6 @@ class CarServiceImplTest {
             assertEquals("Car does not exist", e.getMessage());
         }
     }
-    @Test
-    void getCarsByLoggedUsername() {
-        List<Car> cars = Arrays.asList(car);
-        when(carRepository.findCarsByUserId(1L)).thenReturn(cars);
-        when(userRepository.findByEmail("test1@test.com")).thenReturn(Optional.of(user));
-
-        List<CarResponse> output = carService.getAllCarsByLoggedUsername("test1@test.com");
-        verify(carRepository, times(1)).findCarsByUserId(1L);
-        assertEquals(1, output.size());
-
-        assertEquals("testBrand1", output.get(0).getBrand());
-        assertEquals(1L, output.get(0).getOwnerId());
-    }
 
     @Test
     void addNewCarByLoggedUsername() {
@@ -220,5 +221,21 @@ class CarServiceImplTest {
         assertEquals("testBrandCarRequest1", output.getBrand());
         assertEquals("testModelCarRequest1", output.getModel());
         assertEquals(1L, output.getOwnerId());
+    }
+
+    @Test
+    void updateCarByLoggedUsername() {
+        when(carRepository.findById(1L)).thenReturn(Optional.of(car));
+        when(carRepository.save(any(Car.class))).thenReturn(car);
+        when(userRepository.findByEmail("test1@test.com")).thenReturn(Optional.of(user));
+
+        CarResponse output = carService.updateCarByLoggedUsername(1L, carRequest, "test1@test.com");
+
+        //verify(carRepository, times(1)).findById(1L);
+        //verify(carRepository, times(1)).save(any(Car.class));
+
+        assertEquals(1L, output.getId());
+        assertEquals("testBrandCarRequest1", output.getBrand());
+        assertEquals("testModelCarRequest1", output.getModel());
     }
 }

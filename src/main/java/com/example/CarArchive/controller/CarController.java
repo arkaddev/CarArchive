@@ -74,6 +74,12 @@ public class CarController {
     public ResponseEntity<CarResponse> addNewCarByLoggedUser(@RequestBody CarRequest carRequest) {
         return ResponseEntity.status(HttpStatus.CREATED).body(carService.addNewCarByLoggedUsername(carRequest, getLoggedUser()));
     }
+
+    @Operation(summary = "update car by logged user", description = "")
+    @PutMapping("/cars/user/{id}")
+    public ResponseEntity<CarResponse> updateCarByLoggedUser(@PathVariable Long id, @RequestBody CarRequest carRequest) {
+        return ResponseEntity.ok(carService.updateCarByLoggedUsername(id, carRequest, getLoggedUser()));
+    }
     public String getLoggedUser() {
         return authenticationService.getInfoAboutUser();
     }
