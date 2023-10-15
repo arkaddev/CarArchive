@@ -33,13 +33,6 @@ public class PartController {
         return ResponseEntity.ok(partService.getAllParts());
     }
 
-    @Operation(summary = "get all parts for specific user", description = "")
-    @GetMapping("/parts/user")
-    public ResponseEntity<List<PartResponse>> getAllPartsForSpecificUser() {
-        return ResponseEntity.ok(partService.getAllPartsForSpecificUser(getLoggedUser()));
-    }
-
-
     @Operation(summary = "get part by id", description = "")
     @GetMapping("/parts/{id}")
     public ResponseEntity<PartResponse> getPartById(@PathVariable Long id) {
@@ -70,6 +63,11 @@ public class PartController {
         return ResponseEntity.ok(partService.getPartsToExchangeByMileage(km, carId));
     }
 
+    @Operation(summary = "get all parts by logged user", description = "")
+    @GetMapping("/parts/user")
+    public ResponseEntity<List<PartResponse>> getAllPartsForSpecificUser() {
+        return ResponseEntity.ok(partService.getAllPartsForSpecificUser(getLoggedUser()));
+    }
     public String getLoggedUser() {
         return authenticationService.getInfoAboutUser();
     }
