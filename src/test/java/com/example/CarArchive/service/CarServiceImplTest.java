@@ -238,4 +238,16 @@ class CarServiceImplTest {
         assertEquals("testBrandCarRequest1", output.getBrand());
         assertEquals("testModelCarRequest1", output.getModel());
     }
+
+    @Test
+    void deleteCarByLoggedUsername() {
+        when(carRepository.findById(1L)).thenReturn(Optional.of(car));
+        when(userRepository.findByEmail("test1@test.com")).thenReturn(Optional.of(user));
+
+        String output = carService.deleteCarByLoggedUsername(1L, "test1@test.com");
+
+        verify(carRepository, times(1)).deleteById(1L);
+
+        assertEquals("Car 1 was deleted", output);
+    }
 }

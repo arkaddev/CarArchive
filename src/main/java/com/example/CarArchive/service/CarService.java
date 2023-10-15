@@ -17,6 +17,7 @@ public interface CarService {
     CarResponse getCarByIdByLoggedUsername(Long id, String loggedUsername);
     CarResponse addNewCarByLoggedUsername(CarRequest carRequest, String loggedUsername);
     CarResponse updateCarByLoggedUsername(Long id, CarRequest carRequest, String loggedUsername);
+    String deleteCarByLoggedUsername(Long id, String loggedUsername);
 
 
 }

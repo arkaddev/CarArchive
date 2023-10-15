@@ -160,6 +160,29 @@ public class CarServiceImpl implements CarService {
 
         throw new CarNotFoundException("You do not have permissions");
     }
+
+    @Override
+    public String deleteCarByLoggedUsername(Long id, String loggedUsername) {
+        User user = userService.getUserByUsername(loggedUsername);
+        Long userId = user.getId();
+
+        CarResponse carResponse = carRepository.findById(id).map(carMapper::carToCarResponse).orElseThrow(() -> new CarNotFoundException("Car does not exist"));
+        Long ownerId = carResponse.getOwnerId();
+
+        if (userId == ownerId) {
+            Car car = carRepository.findById(id).orElseThrow(() -> new CarNotFoundException("Car does not exist"));
+
+            try {
+                carRepository.deleteById(id);
+            } catch (Exception e) {
+                throw new CarDeleteException("Car cannot be removed");
+            }
+
+            return "Car " + id + " was deleted";
+        }
+
+        throw new CarNotFoundException("You do not have permissions");
+    }
 }
 
 

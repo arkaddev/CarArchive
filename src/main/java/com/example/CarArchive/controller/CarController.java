@@ -80,6 +80,13 @@ public class CarController {
     public ResponseEntity<CarResponse> updateCarByLoggedUser(@PathVariable Long id, @RequestBody CarRequest carRequest) {
         return ResponseEntity.ok(carService.updateCarByLoggedUsername(id, carRequest, getLoggedUser()));
     }
+
+    @Operation(summary = "delete car by id by logged user", description = "")
+    @DeleteMapping("/cars/user/{id}")
+    public ResponseEntity<String> deleteCarByLoggedUser(@PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(carService.deleteCarByLoggedUsername(id, getLoggedUser()));
+    }
+
     public String getLoggedUser() {
         return authenticationService.getInfoAboutUser();
     }
