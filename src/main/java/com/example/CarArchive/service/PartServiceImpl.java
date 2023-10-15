@@ -42,17 +42,6 @@ public class PartServiceImpl implements PartService {
     }
 
     @Override
-    public List<PartResponse> getAllPartsForSpecificUser(String loggedUsername) {
-//        User user = userService.getUserByUsername(loggedUsername);
-//        Long userId = user.getId();
-//
-//
-//        return partRepository.findPartsByCarId(userId).stream().map(partMapper::partToPartResponse).toList();
-        return null;
-    }
-
-
-    @Override
     public PartResponse getPartById(Long id) {
         Optional<PartResponse> optionalPart = partRepository.findById(id).map(partMapper::partToPartResponse);
         PartResponse partResponse = optionalPart.orElseThrow(() -> new PartNotFoundException("Part does not exist"));
@@ -123,4 +112,21 @@ public class PartServiceImpl implements PartService {
         List<Object[]> objects = partRepository.findPartsByMileage(km, carId);
         return objects;
     }
+
+    @Override
+    public List<PartResponse> getAllPartsByLoggedUsername(String loggedUsername) {
+        User user = userService.getUserByUsername(loggedUsername);
+        Long userId = user.getId();
+
+        return partRepository.findAll().stream()
+                .filter(a -> a.getCar().getUser().getId() == userId)
+                .map(partMapper::partToPartResponse)
+                .toList();
+
+//        return partRepository.findPartsByCarId(userId).stream()
+//                .map(partMapper::partToPartResponse)
+//                .toList();
+
+    }
+
 }

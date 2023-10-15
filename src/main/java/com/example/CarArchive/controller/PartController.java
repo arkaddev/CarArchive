@@ -65,9 +65,10 @@ public class PartController {
 
     @Operation(summary = "get all parts by logged user", description = "")
     @GetMapping("/parts/user")
-    public ResponseEntity<List<PartResponse>> getAllPartsForSpecificUser() {
-        return ResponseEntity.ok(partService.getAllPartsForSpecificUser(getLoggedUser()));
+    public ResponseEntity<List<PartResponse>> getAllPartsByLoggedUser() {
+        return ResponseEntity.ok(partService.getAllPartsByLoggedUsername(getLoggedUser()));
     }
+
     public String getLoggedUser() {
         return authenticationService.getInfoAboutUser();
     }

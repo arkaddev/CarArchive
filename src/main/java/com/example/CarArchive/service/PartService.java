@@ -8,14 +8,16 @@ import java.util.List;
 
 public interface PartService {
     List<PartResponse> getAllParts();
-    List<PartResponse> getAllPartsForSpecificUser(String loggedUsername);
-    PartResponse getPartById(Long id);
-    PartResponse addNewPart(PartRequest partRequest);
-    PartResponse updatePart(Long id, PartRequest partRequest);
-    String deletePart(Long id);
 
+    PartResponse getPartById(Long id);
+
+    PartResponse addNewPart(PartRequest partRequest);
+
+    PartResponse updatePart(Long id, PartRequest partRequest);
+
+    String deletePart(Long id);
 
     List<Object[]> getPartsToExchangeByMileage(int km, Long carId);
 
-
+    List<PartResponse> getAllPartsByLoggedUsername(String loggedUsername);
 }

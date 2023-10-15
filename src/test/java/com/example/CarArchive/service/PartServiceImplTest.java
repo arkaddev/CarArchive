@@ -10,6 +10,7 @@ import com.example.CarArchive.model.Part;
 import com.example.CarArchive.model.Role;
 import com.example.CarArchive.model.User;
 import com.example.CarArchive.repository.PartRepository;
+import com.example.CarArchive.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,10 @@ class PartServiceImplTest {
 
     @MockBean
     private PartRepository partRepository;
+
+    @MockBean
+    private UserRepository userRepository;
+
     private User user;
     private User user2;
     private Car car;
@@ -170,5 +175,23 @@ class PartServiceImplTest {
 
     @Test
     void getPartsToExchangeByMileage() {
+    }
+
+    @Test
+    void getAllPartsByLoggedUsername() {
+        List<Part> parts = Arrays.asList(part);
+        when(partRepository.findAll()).thenReturn(parts);
+        when(userRepository.findByEmail("test1@test.com")).thenReturn(Optional.of(user));
+
+        List<PartResponse> output = partService.getAllPartsByLoggedUsername("test1@test.com");
+
+        verify(partRepository, times(1)).findAll();
+        //assertEquals(2, output.size());
+
+        assertEquals(1L, output.get(0).getId());
+        assertEquals("testPart1", output.get(0).getName());
+        assertEquals(1L, output.get(0).getCarId());
+        assertEquals(1L, output.get(0).getUserId());
+
     }
 }
