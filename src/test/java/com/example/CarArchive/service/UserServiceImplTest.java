@@ -86,6 +86,7 @@ class UserServiceImplTest {
         userRequest.setFirstname("testFirstnameUserRequest1");
         userRequest.setLastname("testLastnameUserRequest1");
         userRequest.setEmail("testUserRequest1@test.com");
+        userRequest.setPassword("testPasswordUserRequest1");
     }
 
     @Test
