@@ -144,4 +144,22 @@ public class PartServiceImpl implements PartService {
         throw new PartNotFoundException("You do not have permissions");
     }
 
+    @Override
+    public PartResponse addNewPartByLoggedUsername(PartRequest partRequest, String loggedUsername) {
+        User user = userService.getUserByUsername(loggedUsername);
+        Long userId = user.getId();
+
+        partRequest.setUserId(userId);
+
+        Part part = partMapper.partRequestToPart(partRequest);
+
+        try {
+            partRepository.save(part);
+        } catch (Exception e) {
+            throw new PartSaveException("Part cannot be saved");
+        }
+
+        return new PartResponse(part.getId(), part.getName(), part.getMileage(), part.getDate(), part.getPartPrice(), part.getRepairPrice(), part.getNextExchange(), part.getCar().getId(), part.getCar().getUser().getId());
+    }
+
 }

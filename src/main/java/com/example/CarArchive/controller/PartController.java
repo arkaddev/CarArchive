@@ -74,6 +74,12 @@ public class PartController {
     public ResponseEntity<PartResponse> getPartByIdByLoggedUser(@PathVariable Long id) {
         return ResponseEntity.ok(partService.getPartByIdByLoggedUsername(id, getLoggedUser()));
     }
+
+    @Operation(summary = "add new part by id by logged user", description = "")
+    @PostMapping("/parts/user")
+    public ResponseEntity<PartResponse> addNewPartByLoggedUser(@RequestBody PartRequest partRequest) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(partService.addNewPartByLoggedUsername(partRequest, getLoggedUser()));
+    }
     public String getLoggedUser() {
         return authenticationService.getInfoAboutUser();
     }
