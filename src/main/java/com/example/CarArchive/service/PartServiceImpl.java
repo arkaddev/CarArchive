@@ -129,4 +129,19 @@ public class PartServiceImpl implements PartService {
 
     }
 
+    @Override
+    public PartResponse getPartByIdByLoggedUsername(Long id, String loggedUsername) {
+        User user = userService.getUserByUsername(loggedUsername);
+        Long userId = user.getId();
+
+        Optional<PartResponse> optionalPart = partRepository.findById(id).map(partMapper::partToPartResponse);
+        PartResponse partResponse = optionalPart.orElseThrow(() -> new PartNotFoundException("Part does not exist"));
+        Long userIdCar = partResponse.getUserId();
+
+        if (userId == userIdCar) {
+            return partResponse;
+        }
+        throw new PartNotFoundException("You do not have permissions");
+    }
+
 }

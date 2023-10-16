@@ -194,4 +194,19 @@ class PartServiceImplTest {
         assertEquals(1L, output.get(0).getUserId());
 
     }
+
+    @Test
+    void getPartByIdByLoggedUsername() {
+        when(partRepository.findById(1L)).thenReturn(Optional.of(part));
+        when(userRepository.findByEmail("test1@test.com")).thenReturn(Optional.of(user));
+
+        PartResponse output = partService.getPartByIdByLoggedUsername(1L, "test1@test.com");
+
+        verify(partRepository, times(1)).findById(1L);
+
+        assertEquals(1L, output.getId());
+        assertEquals("testPart1", output.getName());
+        assertEquals(1L, output.getCarId());
+        assertEquals(1L, output.getUserId());
+    }
 }
