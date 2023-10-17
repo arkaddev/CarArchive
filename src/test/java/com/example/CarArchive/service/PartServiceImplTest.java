@@ -223,4 +223,20 @@ class PartServiceImplTest {
         assertEquals(5L, output.getCarId());
         assertEquals(1L, output.getUserId());
     }
+
+    @Test
+    void updatePartByLoggedUsername() {
+        when(partRepository.findById(1L)).thenReturn(Optional.of(part));
+        when(partRepository.save(any(Part.class))).thenReturn(part);
+        when(userRepository.findByEmail("test1@test.com")).thenReturn(Optional.of(user));
+
+        PartResponse output = partService.updatePartByLoggedUsername(1L, partRequest, "test1@test.com");
+
+//        verify(partRepository, times(1)).findById(1L);
+//        verify(partRepository, times(1)).save(any(Part.class));
+
+        assertEquals("testNamePartRequest1", output.getName());
+        assertEquals(5L, output.getCarId());
+        assertEquals(1L, output.getUserId());
+    }
 }

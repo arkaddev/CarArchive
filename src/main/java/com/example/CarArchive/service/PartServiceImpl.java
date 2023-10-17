@@ -162,4 +162,41 @@ public class PartServiceImpl implements PartService {
         return new PartResponse(part.getId(), part.getName(), part.getMileage(), part.getDate(), part.getPartPrice(), part.getRepairPrice(), part.getNextExchange(), part.getCar().getId(), part.getCar().getUser().getId());
     }
 
+    @Override
+    public PartResponse updatePartByLoggedUsername(Long id, PartRequest partRequest, String loggedUsername) {
+        User user2 = userService.getUserByUsername(loggedUsername);
+        Long userId = user2.getId();
+
+        Part partToUpdate = partRepository.findById(id).orElseThrow(() -> new PartNotFoundException("Part does not exist"));
+        Long userIdPart = partToUpdate.getCar().getUser().getId();
+
+        if (userId == userIdPart) {
+
+            partToUpdate.setName(partRequest.getName());
+            partToUpdate.setMileage(partRequest.getMileage());
+            partToUpdate.setDate(partRequest.getDate());
+            partToUpdate.setPartPrice(partRequest.getPartPrice());
+            partToUpdate.setRepairPrice(partRequest.getRepairPrice());
+            partToUpdate.setNextExchange(partRequest.getNextExchange());
+            Car car = new Car();
+            car.setId(partRequest.getCarId());
+
+            User user = new User();
+            user.setId(userId);
+
+            car.setUser(user);
+
+            partToUpdate.setCar(car);
+
+            try {
+                partRepository.save(partToUpdate);
+            } catch (Exception e) {
+                throw new PartSaveException("Part cannot be updated");
+            }
+
+            return new PartResponse(partToUpdate.getId(), partToUpdate.getName(), partToUpdate.getMileage(), partToUpdate.getDate(), partToUpdate.getPartPrice(), partToUpdate.getRepairPrice(), partToUpdate.getNextExchange(), partToUpdate.getCar().getId(), partToUpdate.getCar().getUser().getId());
+        }
+        throw new PartNotFoundException("You do not have permissions");
+    }
+
 }

@@ -80,6 +80,12 @@ public class PartController {
     public ResponseEntity<PartResponse> addNewPartByLoggedUser(@RequestBody PartRequest partRequest) {
         return ResponseEntity.status(HttpStatus.CREATED).body(partService.addNewPartByLoggedUsername(partRequest, getLoggedUser()));
     }
+
+    @Operation(summary = "update part by id by logged user", description = "")
+    @PutMapping("/parts/user/{id}")
+    public ResponseEntity<PartResponse> updateCarByLoggedUser(@PathVariable Long id, @RequestBody PartRequest partRequest) {
+        return ResponseEntity.ok(partService.updatePartByLoggedUsername(id, partRequest, getLoggedUser()));
+    }
     public String getLoggedUser() {
         return authenticationService.getInfoAboutUser();
     }
