@@ -199,4 +199,25 @@ public class PartServiceImpl implements PartService {
         throw new PartNotFoundException("You do not have permissions");
     }
 
+    @Override
+    public String deletePartByLoggedUsername(Long id, String loggedUsername) {
+        User user2 = userService.getUserByUsername(loggedUsername);
+        Long userId = user2.getId();
+
+        Part part = partRepository.findById(id).orElseThrow(() -> new PartNotFoundException("Part does not exist"));
+        Long userIdPart = part.getCar().getUser().getId();
+
+        if (userId == userIdPart) {
+            try {
+                partRepository.deleteById(id);
+            } catch (Exception e) {
+                throw new PartDeleteException("Part cannot be deleted");
+            }
+
+            return "Part " + id + " was deleted";
+        }
+        throw new PartNotFoundException("You do not have permissions");
+    }
+
+
 }

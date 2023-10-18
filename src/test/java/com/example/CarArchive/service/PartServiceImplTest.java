@@ -239,4 +239,16 @@ class PartServiceImplTest {
         assertEquals(5L, output.getCarId());
         assertEquals(1L, output.getUserId());
     }
+
+    @Test
+    void deletePartByLoggedUsername() {
+        when(partRepository.findById(1L)).thenReturn(Optional.of(part));
+        when(userRepository.findByEmail("test1@test.com")).thenReturn(Optional.of(user));
+
+        String output = partService.deletePartByLoggedUsername(1L, "test1@test.com");
+
+        verify(partRepository, times(1)).deleteById(1L);
+
+        assertEquals("Part 1 was deleted", output);
+    }
 }

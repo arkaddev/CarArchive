@@ -19,4 +19,5 @@ public interface PartService {
     PartResponse getPartByIdByLoggedUsername(Long id, String loggedUsername);
     PartResponse addNewPartByLoggedUsername(PartRequest partRequest, String loggedUsername);
     PartResponse updatePartByLoggedUsername(Long id, PartRequest partRequest, String loggedUsername);
+    String deletePartByLoggedUsername(Long id, String loggedUsername);
 }

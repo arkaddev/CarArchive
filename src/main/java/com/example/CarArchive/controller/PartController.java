@@ -46,7 +46,7 @@ public class PartController {
     }
 
     @Operation(summary = "delete part by id", description = "")
-    @DeleteMapping("/part/{id}")
+    @DeleteMapping("/parts/{id}")
     public ResponseEntity<String> deleteCar(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(partService.deletePart(id));
     }
@@ -85,6 +85,12 @@ public class PartController {
     @PutMapping("/parts/user/{id}")
     public ResponseEntity<PartResponse> updateCarByLoggedUser(@PathVariable Long id, @RequestBody PartRequest partRequest) {
         return ResponseEntity.ok(partService.updatePartByLoggedUsername(id, partRequest, getLoggedUser()));
+    }
+
+    @Operation(summary = "delete part by id by logged user", description = "")
+    @DeleteMapping("/parts/user/{id}")
+    public ResponseEntity<String> deleteCarByLoggedUser(@PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(partService.deletePartByLoggedUsername(id, getLoggedUser()));
     }
     public String getLoggedUser() {
         return authenticationService.getInfoAboutUser();

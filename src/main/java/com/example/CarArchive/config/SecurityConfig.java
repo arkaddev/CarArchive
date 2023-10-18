@@ -48,7 +48,8 @@ public class SecurityConfig {
 
                         .requestMatchers(HttpMethod.POST, "/parts/user").hasAuthority("USER")
                         .requestMatchers(HttpMethod.GET, "/parts/user", "/parts/user/{id}").hasAuthority("USER")
-                        .requestMatchers(HttpMethod.PUT, "/parts/user/{id}").hasAuthority("USER"))
+                        .requestMatchers(HttpMethod.PUT, "/parts/user/{id}").hasAuthority("USER")
+                        .requestMatchers(HttpMethod.DELETE, "/parts/user/{id}").hasAuthority("USER"))
 
 
                 //.anyRequest().authenticated())
