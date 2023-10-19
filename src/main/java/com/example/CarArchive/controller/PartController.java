@@ -64,31 +64,31 @@ public class PartController {
     }
 
     @Operation(summary = "get all parts by logged user", description = "")
-    @GetMapping("/parts/user")
+    @GetMapping("/u/parts")
     public ResponseEntity<List<PartResponse>> getAllPartsByLoggedUser() {
         return ResponseEntity.ok(partService.getAllPartsByLoggedUsername(getLoggedUser()));
     }
 
     @Operation(summary = "get part by id by logged user", description = "")
-    @GetMapping("/parts/user/{id}")
+    @GetMapping("/u/parts/{id}")
     public ResponseEntity<PartResponse> getPartByIdByLoggedUser(@PathVariable Long id) {
         return ResponseEntity.ok(partService.getPartByIdByLoggedUsername(id, getLoggedUser()));
     }
 
     @Operation(summary = "add new part by id by logged user", description = "")
-    @PostMapping("/parts/user")
+    @PostMapping("/u/parts")
     public ResponseEntity<PartResponse> addNewPartByLoggedUser(@RequestBody PartRequest partRequest) {
         return ResponseEntity.status(HttpStatus.CREATED).body(partService.addNewPartByLoggedUsername(partRequest, getLoggedUser()));
     }
 
     @Operation(summary = "update part by id by logged user", description = "")
-    @PutMapping("/parts/user/{id}")
+    @PutMapping("/u/parts/{id}")
     public ResponseEntity<PartResponse> updateCarByLoggedUser(@PathVariable Long id, @RequestBody PartRequest partRequest) {
         return ResponseEntity.ok(partService.updatePartByLoggedUsername(id, partRequest, getLoggedUser()));
     }
 
     @Operation(summary = "delete part by id by logged user", description = "")
-    @DeleteMapping("/parts/user/{id}")
+    @DeleteMapping("/u/parts/{id}")
     public ResponseEntity<String> deleteCarByLoggedUser(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(partService.deletePartByLoggedUsername(id, getLoggedUser()));
     }

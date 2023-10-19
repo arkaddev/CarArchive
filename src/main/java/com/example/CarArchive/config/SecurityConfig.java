@@ -36,20 +36,20 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/cars/{id}").hasAuthority("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/cars/{id}").hasAuthority("ADMIN")
 
-                        .requestMatchers(HttpMethod.POST, "/cars/user").hasAuthority("USER")
-                        .requestMatchers(HttpMethod.GET, "/cars/user", "/cars/user/{id}").hasAuthority("USER")
-                        .requestMatchers(HttpMethod.PUT, "/cars/user/{id}").hasAuthority("USER")
-                        .requestMatchers(HttpMethod.DELETE, "/cars/user/{id}").hasAuthority("USER")
+                        .requestMatchers(HttpMethod.POST, "/parts").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/parts", "/parts/{id}").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/parts/{id}").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/parts/{id}").hasAuthority("ADMIN")
 
-//                        .requestMatchers(HttpMethod.POST, "/parts").hasAuthority("ADMIN")
-//                        .requestMatchers(HttpMethod.GET, "/parts", "/parts/{id}").hasAuthority("ADMIN")
-//                        .requestMatchers(HttpMethod.PUT, "/parts/{id}").hasAuthority("ADMIN")
-//                        .requestMatchers(HttpMethod.DELETE, "/parts/{id}").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/u/cars").hasAuthority("USER")
+                        .requestMatchers(HttpMethod.GET, "/u/cars", "/u/cars/{id}").hasAuthority("USER")
+                        .requestMatchers(HttpMethod.PUT, "/u/cars/{id}").hasAuthority("USER")
+                        .requestMatchers(HttpMethod.DELETE, "/u/cars/{id}").hasAuthority("USER")
 
-                        .requestMatchers(HttpMethod.POST, "/parts/user").hasAuthority("USER")
-                        .requestMatchers(HttpMethod.GET, "/parts/user", "/parts/user/{id}").hasAuthority("USER")
-                        .requestMatchers(HttpMethod.PUT, "/parts/user/{id}").hasAuthority("USER")
-                        .requestMatchers(HttpMethod.DELETE, "/parts/user/{id}").hasAuthority("USER"))
+                        .requestMatchers(HttpMethod.POST, "/u/parts").hasAuthority("USER")
+                        .requestMatchers(HttpMethod.GET, "/u/parts", "/u/parts/{id}").hasAuthority("USER")
+                        .requestMatchers(HttpMethod.PUT, "/u/parts/{id}").hasAuthority("USER")
+                        .requestMatchers(HttpMethod.DELETE, "/u/parts/{id}").hasAuthority("USER"))
 
 
                 //.anyRequest().authenticated())

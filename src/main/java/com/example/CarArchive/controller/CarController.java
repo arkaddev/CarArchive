@@ -58,31 +58,31 @@ public class CarController {
     }
 
     @Operation(summary = "get cars by logged user", description = "")
-    @GetMapping("/cars/user/")
+    @GetMapping("/u/cars")
     public ResponseEntity<List<CarResponse>> getCarsByLoggedUser() {
         return ResponseEntity.ok(carService.getAllCarsByLoggedUsername(getLoggedUser()));
     }
 
     @Operation(summary = "get car by id by logged user", description = "")
-    @GetMapping("/cars/user/{id}")
+    @GetMapping("/u/cars/{id}")
     public ResponseEntity<CarResponse> getCarByIdByLoggedUser(@PathVariable Long id) {
         return ResponseEntity.ok(carService.getCarByIdByLoggedUsername(id, getLoggedUser()));
     }
 
     @Operation(summary = "add new car by logged user", description = "")
-    @PostMapping("/cars/user")
+    @PostMapping("/u/cars")
     public ResponseEntity<CarResponse> addNewCarByLoggedUser(@RequestBody CarRequest carRequest) {
         return ResponseEntity.status(HttpStatus.CREATED).body(carService.addNewCarByLoggedUsername(carRequest, getLoggedUser()));
     }
 
     @Operation(summary = "update car by logged user", description = "")
-    @PutMapping("/cars/user/{id}")
+    @PutMapping("/u/cars/{id}")
     public ResponseEntity<CarResponse> updateCarByLoggedUser(@PathVariable Long id, @RequestBody CarRequest carRequest) {
         return ResponseEntity.ok(carService.updateCarByLoggedUsername(id, carRequest, getLoggedUser()));
     }
 
     @Operation(summary = "delete car by id by logged user", description = "")
-    @DeleteMapping("/cars/user/{id}")
+    @DeleteMapping("/u/cars/{id}")
     public ResponseEntity<String> deleteCarByLoggedUser(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(carService.deleteCarByLoggedUsername(id, getLoggedUser()));
     }
