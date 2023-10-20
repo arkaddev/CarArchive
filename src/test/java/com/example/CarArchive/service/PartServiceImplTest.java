@@ -1,9 +1,7 @@
 package com.example.CarArchive.service;
 
-import com.example.CarArchive.dto.CarResponse;
 import com.example.CarArchive.dto.PartRequest;
 import com.example.CarArchive.dto.PartResponse;
-import com.example.CarArchive.exception.CarNotFoundException;
 import com.example.CarArchive.exception.PartNotFoundException;
 import com.example.CarArchive.model.Car;
 import com.example.CarArchive.model.Part;
@@ -186,6 +184,8 @@ class PartServiceImplTest {
         List<PartResponse> output = partService.getAllPartsByLoggedUsername("test1@test.com");
 
         verify(partRepository, times(1)).findAll();
+        verify(userRepository, times(1)).findByEmail("test1@test.com");
+
         //assertEquals(2, output.size());
 
         assertEquals(1L, output.get(0).getId());
@@ -203,6 +203,7 @@ class PartServiceImplTest {
         PartResponse output = partService.getPartByIdByLoggedUsername(1L, "test1@test.com");
 
         verify(partRepository, times(1)).findById(1L);
+        verify(userRepository, times(1)).findByEmail("test1@test.com");
 
         assertEquals(1L, output.getId());
         assertEquals("testPart1", output.getName());
@@ -218,6 +219,7 @@ class PartServiceImplTest {
         PartResponse output = partService.addNewPartByLoggedUsername(partRequest, "test1@test.com");
 
         verify(partRepository, times(1)).save(any(Part.class));
+        verify(userRepository, times(1)).findByEmail("test1@test.com");
 
         assertEquals("testNamePartRequest1", output.getName());
         assertEquals(5L, output.getCarId());
@@ -232,8 +234,9 @@ class PartServiceImplTest {
 
         PartResponse output = partService.updatePartByLoggedUsername(1L, partRequest, "test1@test.com");
 
-//        verify(partRepository, times(1)).findById(1L);
-//        verify(partRepository, times(1)).save(any(Part.class));
+        verify(partRepository, times(1)).findById(1L);
+        verify(partRepository, times(1)).save(any(Part.class));
+        verify(userRepository, times(1)).findByEmail("test1@test.com");
 
         assertEquals("testNamePartRequest1", output.getName());
         assertEquals(5L, output.getCarId());
@@ -248,6 +251,8 @@ class PartServiceImplTest {
         String output = partService.deletePartByLoggedUsername(1L, "test1@test.com");
 
         verify(partRepository, times(1)).deleteById(1L);
+        verify(userRepository, times(1)).findByEmail("test1@test.com");
+
 
         assertEquals("Part 1 was deleted", output);
     }

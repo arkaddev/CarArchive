@@ -176,7 +176,9 @@ class CarServiceImplTest {
         when(userRepository.findByEmail("test1@test.com")).thenReturn(Optional.of(user));
 
         List<CarResponse> output = carService.getAllCarsByLoggedUsername("test1@test.com");
+
         verify(carRepository, times(1)).findCarsByUserId(1L);
+        verify(userRepository, times(1)).findByEmail("test1@test.com");
         assertEquals(1, output.size());
 
         assertEquals("testBrand1", output.get(0).getBrand());
@@ -190,7 +192,8 @@ class CarServiceImplTest {
 
         CarResponse output = carService.getCarByIdByLoggedUsername(1L, "test1@test.com");
 
-        //verify(carRepository, times(1)).findById(1L);
+        verify(carRepository, times(2)).findById(1L);
+        verify(userRepository, times(1)).findByEmail("test1@test.com");
 
         assertEquals(1L, output.getId());
         assertEquals("testBrand1", output.getBrand());
@@ -217,6 +220,7 @@ class CarServiceImplTest {
         CarResponse output = carService.addNewCarByLoggedUsername(carRequest,"test1@test.com" );
 
         verify(carRepository, times(1)).save(any(Car.class));
+        verify(userRepository, times(1)).findByEmail("test1@test.com");
 
         assertEquals("testBrandCarRequest1", output.getBrand());
         assertEquals("testModelCarRequest1", output.getModel());
@@ -231,8 +235,9 @@ class CarServiceImplTest {
 
         CarResponse output = carService.updateCarByLoggedUsername(1L, carRequest, "test1@test.com");
 
-        //verify(carRepository, times(1)).findById(1L);
-        //verify(carRepository, times(1)).save(any(Car.class));
+        verify(carRepository, times(2)).findById(1L);
+        verify(carRepository, times(1)).save(any(Car.class));
+        verify(userRepository, times(1)).findByEmail("test1@test.com");
 
         assertEquals(1L, output.getId());
         assertEquals("testBrandCarRequest1", output.getBrand());
@@ -247,6 +252,7 @@ class CarServiceImplTest {
         String output = carService.deleteCarByLoggedUsername(1L, "test1@test.com");
 
         verify(carRepository, times(1)).deleteById(1L);
+        verify(userRepository, times(1)).findByEmail("test1@test.com");
 
         assertEquals("Car 1 was deleted", output);
     }
