@@ -14,6 +14,7 @@ public interface PartService {
     String deletePart(Long id);
 
     List<Object[]> getPartsToExchangeByMileage(int km, Long carId);
+    List<PartResponse> getPartsToExchangeByMileageByLoggedUsername(int km, Long carId, String loggedUsername);
 
     List<PartResponse> getAllPartsByLoggedUsername(String loggedUsername);
     PartResponse getPartByIdByLoggedUsername(Long id, String loggedUsername);
