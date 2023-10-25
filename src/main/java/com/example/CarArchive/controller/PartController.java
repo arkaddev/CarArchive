@@ -65,7 +65,7 @@ public class PartController {
 
     @Operation(summary = "get parts to exchange by mileage by logged user", description = "")
     @PostMapping("/u/partsToExchange")
-    public ResponseEntity<List<PartResponse>> getPartsToExchangeByMileageByLoggedUser(@RequestParam int km, @RequestParam Long carId) {
+    public ResponseEntity<List<Object[]>> getPartsToExchangeByMileageByLoggedUser(@RequestParam int km, @RequestParam Long carId) {
         return ResponseEntity.ok(partService.getPartsToExchangeByMileageByLoggedUsername(km, carId, getLoggedUser()));
     }
 

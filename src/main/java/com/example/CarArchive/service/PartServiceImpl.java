@@ -114,7 +114,7 @@ public class PartServiceImpl implements PartService {
     }
 
     @Override
-    public List<PartResponse> getPartsToExchangeByMileageByLoggedUsername(int km, Long carId, String loggedUsername) {
+    public List<Object[]> getPartsToExchangeByMileageByLoggedUsername(int km, Long carId, String loggedUsername) {
         User user = userService.getUserByUsername(loggedUsername);
         Long userId = user.getId();
 
@@ -122,10 +122,8 @@ public class PartServiceImpl implements PartService {
         Long userIdCar = car.getUser().getId();
 
         if (userId == userIdCar) {
-            return partRepository.findAll().stream()
-                    .filter(a -> a.getCar().getId() == carId)
-                    .map(partMapper::partToPartResponse)
-                    .toList();
+            List<Object[]> objects = partRepository.findPartsByMileage(km, carId);
+            return objects;
         }
         throw new PartNotFoundException("You do not have permissions");
     }
