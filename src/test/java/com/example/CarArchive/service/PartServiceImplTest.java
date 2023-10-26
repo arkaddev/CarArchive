@@ -173,6 +173,7 @@ class PartServiceImplTest {
 
     @Test
     void getPartsToExchangeByMileage() {
+        when(partRepository.findPartsByMileage(200200, 1L)).thenReturn((List<Object[]>) part);
     }
 
     @Test
