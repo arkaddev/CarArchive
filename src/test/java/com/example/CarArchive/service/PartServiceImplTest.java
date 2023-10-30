@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -173,7 +174,13 @@ class PartServiceImplTest {
 
     @Test
     void getPartsToExchangeByMileage() {
-        when(partRepository.findPartsByMileage(200200, 1L)).thenReturn((List<Object[]>) part);
+        List<Object[]> parts = new ArrayList<>();
+        when(partRepository.findPartsByMileage(200200, 1L)).thenReturn(parts);
+
+        List<Object[]> output = partService.getPartsToExchangeByMileage(200200, 1L);
+
+        verify(partRepository, times(1)).findPartsByMileage(200200, 1L);
+
     }
 
     @Test
